@@ -355,7 +355,7 @@ class ForgotPassword extends React.Component {
               <Helmet>
                   <html lang="en" />  
                   <meta charSet="utf-8" />
-                  <title>NSSB: Nagaland Staff Selection Board - Registration Portal | Forgot Password</title>
+                  <title>Nagaland Loan Tracking Portal | Forgot Password</title>
                   <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
                   <link rel="canonical" href="https://nssbrecruitment.in/" />
               </Helmet>

@@ -182,7 +182,7 @@ class Login extends React.Component {
             <Helmet>
                 <html lang="en" />  
                 <meta charSet="utf-8" />
-                <title>NSSB: Nagaland Staff Selection Board - Registration Portal | Login</title>
+                <title>Nagaland Loan Tracking Portal | Login</title>
                 <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
                 <link rel="canonical" href="https://nssbrecruitment.in/" />
             </Helmet>

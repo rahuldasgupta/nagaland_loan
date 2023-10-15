@@ -312,7 +312,7 @@ class PaymentHistory extends React.Component {
                 <Helmet>
                     <html lang="en" />  
                     <meta charSet="utf-8" />
-                    <title>NSSB: Nagaland Staff Selection Board - Registration Portal | Payment & Refund History</title>
+                    <title>Nagaland Loan Tracking Portal | Payment & Refund History</title>
                     <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
                     <link rel="canonical" href="https://nssbrecruitment.in/" />
                 </Helmet>
