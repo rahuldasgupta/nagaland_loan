@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+html{
+    font-family: 'Roboto', sans-serif;
+}
+a {
+    color: #FFF;
+}
+a:hover {
+    color: transparent;
+}
+a, a:hover, a:visited, a:active {
+    text-decoration: none;
+}
+
+.assessibility_div_darkMode{
+    float: right;
+    cursor: pointer;
+}
+.assessibility_div_fonts{
+    float: right;
+    cursor: pointer;
+}
+.borderAssessibilty{
+    border-right: 1px solid #fff;
+    height: 20px;
+    float: right;
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-top: 6px;
+}
+.MdDarkMode{
+    color: #fff !important;
+}
+.MdDarkMode2{
+    margin-right: 5px;
+    color: #fff !important;
+}
+span.assessibility_div_Txt{
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    padding-left: 7px;
+    user-select: none;
+    padding-top: 2px !important;
+}
+@media screen and (max-width: 769px) {
+    .assessibility_div{
+        display: none !important;
+    }
+    .logos-div-navbar{
+        height: 70px;
+        width: 100%;
+        padding-top: 5px;
+        background-color: #fff;
+        align-items: center;
+        justify-content:space-between;
+        display: flex;
+        padding-left: 3%;
+        padding-right: 5%;
+        display: block;
+    }
+    .logos-div-navbar_forPC{
+        display: none;
+    }
+    .nssb_banner{
+        height: 60px;
+        object-fit: contain;
+    }
+    .navbar-register{
+        display: none;
+    }
+}
+@media screen and (min-width: 770px) {
+    .assessibility_div{
+        width: 100%;
+        height: 35px;
+        padding-top: 3px;
+        display: block;
+        background-color: #006EBF;
+        padding-right: 1.6%;
+    }
+    .logos-div-navbar{
+        display: none;
+    }
+    .logos-div-navbar_forPC{
+        display: block;
+        height: 140px;
+        width: 100%;
+        background-color: #fff;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        padding-left: 3%;
+        padding-right: 5%;
+    }
+    .nssb_banner{
+        height: 110px;
+        object-fit: contain;
+    }
+    .navbar-register{
+        display: flex;
+        align-items: center;
+        margin-top: 1%;
+        margin-right: 5%;
+        float: right !important;
+        cursor: pointer;
+    }
+}
+.contact-nav-text{
+    color: #fff;
+    cursor: pointer !important;
+    font-size: 18px;
+}
+.contact-icon-first{
+    margin-top: 10% !important;
+    margin-left: 4%;
+    height: 50px !important;
+}
+.SideBarPosition{
+    z-index: 999999;
+    position: fixed;
+}
+.sidebar_Shadow{
+    min-width: 28.3vw;
+    object-fit: contain;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.loc-icons{
+    color:#747474;
+    cursor: pointer;
+}
+.loc-icons_marker{
+    color:#222;
+    cursor: pointer;
+}
+.number{
+    cursor: pointer;
+}
+.contact-icon-second{
+    margin-left: 4%;
+    height: 50px !important;
+}
+.chbk-icons{
+    color: #0783de;
+}
+.contact-div1-subtitle{
+    color:#fff;
+    font-size: 15px;
+    padding-top: 3px;
+    padding-right: 10%;
+    font-family: 'Rubik', sans-serif;
+}
+.newDemo-radio-txt{
+    color: #222 !important;
+}
+@media screen and (max-width: 769px) {
+    .border-radius-2 div {
+      border-radius: 15px !important;
+    }
+    .border-radius-10 div {
+        background-color: transparent;
+        border: 0px solid #222;
+        padding: 0px !important;
+        margin-top: 0% !important;
+    }
+  }
+  @media screen and (min-width: 770px) {
+    .border-radius-2 div {
+      border-radius: 25px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .border-radius-10 div {
+        background-color: transparent;
+        border: 0px solid #222;
+        padding: 0px !important;
+        margin-top: 0% !important;
+        border-radius: 10px !important;
+      }
+}
+p.navbar_txt{
+    color: #fff;
+    font-size: 18px !important;
+    margin-left: 6px;
+    font-family: 'Roboto', sans-serif;
+}
+.register-navbar-icon{
+    height: 30px;
+    width: 30px;
+    margin-top: -3px;
+}
+.closeIcon{
+    float: right;
+    cursor: pointer;
+}
+p.loginErrorTxt {
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    display: flex;
+    margin-left: 10%;
+    margin-top: 10px;
+    letter-spacing: 0.01em;
+    color: red;
+  }
+.logo{
+    height:30px;
+    width: 60px;
+}
+.side-bar{
+    display: none;
+    color: #FFF;
+}
+@media screen and (max-height: 680px) and (max-width: 769px) {
+    .border-radius-1 div {
+        border-radius: 10px !important;
+        height: 87vh;
+        padding: 0px;
+    }
+}
+@media screen and (min-height: 681px) and (max-width: 769px){
+    .border-radius-1 div {
+        border-radius: 10px !important;
+        height: 70vh;
+        padding: 0px;
+    }
+}
+@media screen and (min-height: 681px) and (min-width: 770px){
+    .border-radius-1 div {
+        border-radius: 10px !important;
+        height: 85vh;
+        padding: 0px;
+    }
+}
+@media screen and (max-width: 769px) {
+    .side-bar{
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+    .sidebar-icon{
+        height: 22px;
+        margin-top: 85px;
+        object-fit: contain;
+    }
+    .mobile-side-img-div2{
+        padding-left: 50%;
+        padding-top: 5%;
+    }
+}   
+  .categories-hover-div{
+    position: absolute;
+    background-color: #fff;
+    margin-top: 9.68rem;
+    margin-left: 15.5rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    z-index: 99;
+    padding-top: 12px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    font-size: 17.5px !important;
+  }
+  .nav-change-drop {
+    color: #02486c !important;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    float: center;
+    display: flex;
+  }
+  .nav-change-drop:hover{
+    color: #02486c !important;
+  }

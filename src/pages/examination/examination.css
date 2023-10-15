@@ -1,0 +1,508 @@
+p.examTab_title{
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif !important;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+p.examTab_subTitle{
+    font-family: 'Rubik', sans-serif;
+    color: #818181;
+    margin-bottom: 3%;
+}
+p.admit_subTitle{
+    font-family: 'Rubik', sans-serif;
+    color: #818181;
+    margin-bottom: 4%;
+}
+p.postAppliedTab_subTitle{
+    font-family: 'Rubik', sans-serif;
+    color: #818181;
+    margin-bottom: 2%;
+}
+.examTabs{
+    width: 100%;
+    padding: 5%;
+    padding-left: 5.5%;
+    padding-right: 5.5%;
+    border-radius: 14px;
+    margin-bottom: 4.5%;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+p.examTab_LastDate{
+    font-family: 'Rubik', sans-serif;
+    color: #222;
+    margin-top: 5px;
+    font-weight: 500;
+    margin-bottom: 3px !important;
+}
+.downloadPDF_img{
+    height: 35px;
+    margin-top: 5px;
+    object-fit: contain;
+    cursor: pointer;
+}
+p.totalPostsVacancy{
+    color: #2ba682;
+    background-color: #eaf6f2;
+    padding: 5px;
+    margin-left: 2%;
+    padding-bottom: 7px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 5%;
+    width: 170px !important;
+    text-align: center;
+}
+.viewExamDetails_boldTxt{
+    font-weight: 500;
+}
+.admit_profileTxt{
+    color: #0783de;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+}
+@media only screen and (min-width: 768px) {
+    .admit_missingNotice{
+        color: #2ba682;
+        background-color: #eaf6f2;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 100px;
+        display: inline-block;
+        margin-top: 5%;
+        margin-bottom: 6px;
+        text-align: center;
+    }
+    .admit_checkBox{
+        margin-bottom: -15px;
+    }
+    .admit_WarnBox{
+        margin-bottom: -20px;
+    }
+    p.admit_header_txt{
+        font-family: 'Roboto', sans-serif;
+        font-size: 17px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        margin-left: 4px;
+    }
+    .admit_subheader_txt{
+        font-family: 'Roboto', sans-serif;
+        font-size: 17px;
+        font-weight: 100;
+        margin-left: 4px;
+    }
+    button.examTab_activePost{
+        background-color: #0783de;
+        border: 1.6px solid #0783de;
+        border: none;
+        color: white;
+        min-height: 47px;
+        width: auto;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-left: 1.2%;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 1%;
+    }
+    button.examTab_inactivePost{
+        background-color: #EAEAEA;
+        border: 1.6px solid #d4d4d4;
+        color: #242424;
+        min-height: 47px;
+        width: auto;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-left: 1.2%;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 1%;
+    }
+    .viewExaminationDetails_AllBoxes{
+        margin-top: 2%;
+    }
+    .notEligibleBtn{
+        box-sizing: border-box;
+        width: 100%;
+        height: 45px;
+        background-color: red;
+        border: 1.6px solid red;
+        border-radius: 8px;
+        margin-top: 4%;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 7.5px;
+    }
+    .EligibleBtn{
+        box-sizing: border-box;
+        width: 100%;
+        height: 45px;
+        background-color: #0783de;
+        border: 1.6px solid #0783de;
+        border-radius: 8px;
+        margin-top: 4%;
+        cursor: pointer;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 7.5px;
+    }
+    .ViewExams_appliedBtn{
+        height: 45px;
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 4%;
+        padding-top: 8px;
+    }
+    .ViewExams_confirmBtn{
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 0%;
+        padding-top: 13px;
+        padding-bottom: 13px;
+
+        color: #fff;
+        font-size: 17.5px;
+        font-style: normal;
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif !important;
+        text-align: center;
+    }
+    .examination_shadowBoxes{
+        width: 100%;
+        padding: 2%;
+        padding-left: 3%;
+        padding-right: 3%;
+        border-radius: 14px;
+        margin-bottom: 2.7%;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
+    p.viewExam_subCourcs_green_rightAlligned{
+        color: #0F8755;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 500;
+        font-size: 17px;
+        text-align: right;
+        float: right;
+        margin-left: 5px;
+        margin-top: 3.3px;
+    }
+    p.ageRelaxionApplied{
+        color: #2ba682;
+        background-color: #eaf6f2;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 100px;
+        display: block;
+        text-align: center;
+        float: right;
+        margin-right: 0px !important;
+    }
+    .disclaimerDiv{
+        padding: 7px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .admit_missingNotice{
+        color: #2ba682;
+        background-color: #eaf6f2;
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 5%;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .admit_checkBox{
+        margin-top: 15px;
+        margin-bottom: -10px;
+    }
+    .admit_WarnBox{
+        margin-top: 15px;
+        margin-bottom: -15px;
+    }
+    p.admit_header_txt{
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0px;
+        margin-top: 20px;
+        margin-left: 4px;
+    }
+    .admit_subheader_txt{
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 100;
+        margin-bottom: 0px;
+        margin-top: 20px;
+        margin-left: 4px;
+    }
+    p.viewExam_subCourcs_green_rightAlligned{
+        display: none;
+    }
+    p.ageRelaxionApplied{
+        color: #2ba682;
+        background-color: #eaf6f2;
+        padding: 4px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 100px;
+        display: block;
+        float: right;
+        margin-right: 0px !important;
+    }
+    button.examTab_activePost{
+        background-color: #0783de;
+        border: 1.6px solid #0783de;
+        color: white;
+        min-height: 47px;
+        width: auto;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-left: 1.5%;
+        margin-bottom: 3%;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        padding: 5px;
+        padding-left: 15px;
+        text-align: left;
+        padding-right: 15px;
+        
+    }
+    button.examTab_inactivePost{
+        background-color: #EAEAEA;
+        border: 1.6px solid #d4d4d4;
+        color: #242424;
+        min-height: 47px;
+        width: auto;
+        text-align: left;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-left: 1.5%;
+        margin-bottom: 3%;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .viewExaminationDetails_AllBoxes{
+        margin-top: 2%;
+    }
+    .examination_shadowBoxes{
+        width: 100%;
+        padding: 4%;
+        padding-left: 5%;
+        padding-right: 5%;
+        border-radius: 14px;
+        margin-bottom: 4.5%;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
+    .notEligibleBtn{
+        box-sizing: border-box;
+        background-color: red;
+        width: 100%;
+        height: 50px;
+        border: 1.6px solid red;
+        border-radius: 8px;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 10.5px;
+        padding-left: 7%;
+        padding-right: 7%;
+        margin-top: 4%;
+    }
+    .EligibleBtn{
+        box-sizing: border-box;
+        background-color: #0783de;
+        width: 100%;
+        height: 50px;
+        border: 1.6px solid #0783de;
+        border-radius: 8px;
+        cursor: pointer;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 10.5px;
+        padding-left: 7%;
+        padding-right: 7%;
+        margin-top: 4%;
+    }
+    .ViewExams_appliedBtn{
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        box-sizing: border-box;
+        height: 50px;
+        border-radius: 8px;
+        cursor: pointer;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 9.6px;
+        padding-left: 7%;
+        padding-right: 7%;
+        margin-top: 4%;
+    }
+    .ViewExams_confirmBtn{
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 8px;
+        cursor: pointer;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        padding-left: 7%;
+        padding-right: 7%;
+        margin-top: 0%;
+
+        color: #fff;
+        font-size: 17.5px;
+        font-style: normal;
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif !important;
+        text-align: center;
+        }
+    
+}
+.examRegistrationClosed{
+    color: #fff;
+    background-color: #a9a9a9;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-top: 5%;
+    margin-bottom: 6px;
+    text-align: center;
+}
+br.viewExam_BR{
+    display: block; /* makes it have a width */
+    content: ""; /* clears default height */
+    margin-top: 13px; /* change this to whatever height you want it */
+}
+br.viewExam_BR2{
+    display: block; /* makes it have a width */
+    content: ""; /* clears default height */
+    margin-top: 5px; /* change this to whatever height you want it */
+}
+.viewExam_subtites_new{
+    font-size: 17px;
+    font-weight:400;
+    color: #222;
+    margin-top: 0px;
+    margin-bottom: 7px;
+}
+.viewExam_subtites{
+    font-family: 'Rubik', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: #222;
+    margin-top: 0px;
+    margin-bottom: 7px;
+}
+p.viewExam_subCourcs_green{
+    color: #0F8755;
+    margin-bottom: 7px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: left;
+    float: left;
+}
+p.viewExam_subCourcs_Black{
+    color: #222;
+    margin-bottom: 7px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    text-align: left;
+}
+p.viewExam_subCourcs_red{
+    color: red;
+    margin-bottom: 7px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: left;
+    float: left;
+}
+p.viewExam_WarnModalSubtitles{
+    font-family: 'Rubik', sans-serif;
+    font-size: 15px;
+    color: #818181;
+    margin-bottom: -10px;
+}
+p.home_infoModal{
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #222;
+    margin-top: 25px;
+    margin-bottom: -10px;
+}
+span.linkBlue{
+    color: #0783de;
+    cursor: pointer;
+}
+
+p.examination_shadowBoxesTxt{
+    font-size: 16.5px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 3px;
+}
+p.confirmationBasicInfo{
+    font-family: 'Rubik', sans-serif;
+    color: #222;
+    margin-left: 4.5px;
+    margin-bottom: 0px;
+}
+p.addingMaxAgeTxt{
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    color: #818181;
+    text-align: center;
+}
+p.confirmation_ageIneligibleTxt{
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #818181;
+    text-align: center;
+    margin-top: -10px;
+}
+p.disclaimerTxt{
+    font-family: 'Rubik', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 5px;
+}

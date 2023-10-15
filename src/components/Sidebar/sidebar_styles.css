@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+ .empty-sidebar-div{
+     padding-top: 20vh;
+     padding-bottom: 20vh;
+ }
+ .sidebar-icons-margin{
+    margin-left: 10px;
+ }
+ .sidebar-item-txt{
+    color: #fff !important;
+    font-family: 'Rubik', sans-serif;
+    font-size: 17px;
+    padding-top: 17px;
+ }
+ .btn {
+     background-color: transparent;
+     border: 0px solid;
+     color: #fff !important;
+     font-size: 14px !important;
+     padding-left: -50px;
+ }
+ hr.sidebar_hr_white{
+    color: #fff;
+    width: 87%;
+    margin-right: 4%;
+ }

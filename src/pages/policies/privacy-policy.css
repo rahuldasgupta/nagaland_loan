@@ -1,0 +1,30 @@
+
+.termscontainer{
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+p.policy-Txt{
+    font-family: 'Roboto', sans-serif !important;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+    font-size: 17px;
+}
+p.terms-Title{
+    font-weight: 600;
+    font-size: 25px;
+}
+li{
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 400;
+    font-size: 17px;
+}
+p.policy-SubTitle{
+    font-weight: 600;
+    font-size: 17px;
+}
+span.policy-spanSubTitle{
+    font-weight: 400;
+    font-size: 17px;
+}
