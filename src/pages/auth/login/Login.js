@@ -82,10 +82,10 @@ class Login extends React.Component {
       const { email, password } = this.state;
       let emailTrimmed = email.trim();
       let user = {
-        "user": emailTrimmed,
+        "email": emailTrimmed,
         "password": password
       };
-      await fetch("https://nssbrecruitment.in/admin/api/login.php", {
+      await fetch("https://csrnagaland.in/loanidan/api/login.php", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -98,7 +98,7 @@ class Login extends React.Component {
         this.setState({
           loaderModal: false
         })
-        if(responseJson.Status === "Account Does Not Exists"){
+        if(responseJson.Status === "Account Does Not Exist"){
           toast.warn('Email ID does not exist', {
             position: "bottom-center",
             autoClose: 5000,
@@ -110,7 +110,7 @@ class Login extends React.Component {
             theme: "light",
           });
         }
-        else if(responseJson.Status === "Password Does Not Match"){
+        else if(responseJson.Status === "Email and Password Do Not Match"){
           toast.warn('Password is incorrect', {
             position: "bottom-center",
             autoClose: 5000,

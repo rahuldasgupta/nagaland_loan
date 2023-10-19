@@ -22,7 +22,7 @@ import exam_2 from "../../assets/exam_2.png"
 import workshop from "../../assets/icon/workshop.png"
 import top_badge from "../../assets/top_badge.png";
 
-//import MapComponent from './mapComponent'
+import MapComponent from './mapComponent'
 import 'react-multi-carousel/lib/styles.css';
 import "./Home.css";
 import Footer from "../../components/Footer/footer";
@@ -174,8 +174,8 @@ class Home extends React.Component {
   }
   render() {
     const { fontSize } = this.props;
-    const latitude = 25.7159361;
-    const longitude = 94.1089800;
+    //const latitude = 25.7047669;
+    //const longitude = 94.1065582;
     return (
       <div style={{ fontSize: `${fontSize}px` }}>
         <Helmet>
@@ -343,15 +343,15 @@ class Home extends React.Component {
           <div>
             <Row>
               <Col md={6}>
-                {/*<MapComponent/>*/}
-                <iframe
+                <MapComponent/>
+                {/*<iframe
                   title="Map"
                   frameBorder="0"
                   style={{ border: 0 }}
                   className="embeddedMap"
-                  src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyBttNovQQfTde-VkUHOugPWUrgr9DkmmaU&center=${latitude},${longitude}&zoom=22`}
+                  src={`https://www.google.com/maps/embed/v1/view?key=AIzaSyBttNovQQfTde-VkUHOugPWUrgr9DkmmaU&center=${latitude},${longitude}&zoom=17`}
                   allowFullScreen
-                ></iframe>
+                 ></iframe>*/}
               </Col>
               <Col md={6}>
                 <Fade bottom duration={800} cascade>
@@ -367,8 +367,8 @@ class Home extends React.Component {
                           />
                         </Col>
                         <Col md={5} xs={10} sm={10}>
-                          <a href={"tel:" + "+919366495971"}>
-                            <p className="contact-div1-subtitle-home number" style={{ fontSize: fontSize >=16 ? `${fontSize}px` : '16px' }}>+91-9366495971</p>
+                          <a href={"tel:" + "++91370221180"}>
+                            <p className="contact-div1-subtitle-home number" style={{ fontSize: fontSize >=16 ? `${fontSize}px` : '16px' }}>+91-370-221180</p>
                           </a>
                         </Col>
                       </Row>
@@ -382,7 +382,7 @@ class Home extends React.Component {
                           />
                         </Col>
                         <Col md={4} xs={10} sm={10}>
-                          <p className="contact-div1-subtitle-home number" style={{ fontSize: fontSize >=16 ? `${fontSize}px` : '16px' }} onClick={() => window.location = 'mailto:helpdesk@nagalandloan.in'}>helpdesk@nagalandloan.in</p>
+                          <p className="contact-div1-subtitle-home number" style={{ fontSize: fontSize >=16 ? `${fontSize}px` : '16px' }} onClick={() => window.location = 'mailto:info.idan-ngl@gov.in'}>info.idan-ngl@gov.in</p>
                         </Col>
                       </Row>
                     </div>

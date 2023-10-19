@@ -10,22 +10,6 @@ let containerStyle = {
   margin: 0
 };
 
-
-const mapOptions = {
-  zoom: 5,
-  styles: [
-    {
-      featureType: 'poi',
-      stylers: [{ visibility: 'off' }],
-    },
-  ],
-};
-
-
-const customIcon = {
-  url: "https://i.ibb.co/0Fs98Bb/small-pin.png"
-};
-
 function MapComponent() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -35,15 +19,16 @@ function MapComponent() {
   const [mapRef, setMapRef] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [map, setMap] = React.useState(null);
+  const [zoom, setZoom] = React.useState(18);
   const [infoWindowData, setInfoWindowData] = useState();
   const [markers, setMarkers] = useState([{
-    adTitle: "Nagaland Staff Selection Board",
-    lat: 25.7159361,
-    lng: 94.1089998,
+    adTitle: "IDAN",
+    lat: 25.7049669,
+    lng: 94.1066582,
   }]);
   const [position, setPosition] = useState({
-    lat: 25.7159361,
-    lng: 94.1088883,
+    lat: 25.7049669,
+    lng: 94.1066582,
   });
   useEffect(() => {
     if(window.innerWidth<700){
@@ -63,17 +48,14 @@ function MapComponent() {
   }, []);
 
   const onLoad = React.useCallback(function callback(map) {
-    let obj = {
-      lat: 25.7159361,
-      lng: 94.1089998,
-    }
-    const bounds = new window.google.maps.LatLngBounds(obj);
-    map.fitBounds(bounds);
+    setZoom(18)
+    map.setZoom(zoom)
     setMap(map)
   }, [])
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
+    setZoom(18)
   }, [])
   
   const handleMarkerClick = (id, lat, lng, adTitle) => {
@@ -81,15 +63,23 @@ function MapComponent() {
     setInfoWindowData({ id, adTitle });
     setIsOpen(true);
   };
-
+  const mapOptions = {
+    zoom: 18,
+    styles: [
+      {
+        featureType: 'poi',
+        stylers: [{ visibility: 'off' }],
+      },
+    ],
+  };
   return isLoaded ? (
     <>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={position}
-        zoom={5}
-        options={mapOptions}
         onLoad={onLoad}
+        options={mapOptions}
+        zoom={zoom}
         onUnmount={onUnmount}
       >
         <>
@@ -101,7 +91,12 @@ function MapComponent() {
                 <Marker
                     key={key}
                     position={{ lat, lng }}
-                    icon={customIcon}
+                    icon={{
+                      url: "https://i.ibb.co/k93PgvJ/pin.png", // Path to your custom icon image
+                      scaledSize: new window.google.maps.Size(50, 58), // Set the desired width and height of the icon
+                      origin: new window.google.maps.Point(0, 0),
+                      anchor: new window.google.maps.Point(20, 40), // Center the icon at the specified position
+                    }}
                     onClick={() => {
                       handleMarkerClick(key, lat, lng, adTitle);
                     }}
@@ -114,8 +109,8 @@ function MapComponent() {
                         }}
                       >
                         <>
-                          <p className='markerTxt' onClick={() => window.open("https://www.google.com/maps/place/Nagaland+Staff+Selection+Board/@25.7158996,94.1088023,19.46z/data=!4m14!1m7!3m6!1s0x37462313caa8c26f:0x3130df059fe53d32!2sNagaland+Staff+Selection+Board!8m2!3d25.7159063!4d94.1090047!16s%2Fg%2F11ssbkssb0!3m5!1s0x37462313caa8c26f:0x3130df059fe53d32!8m2!3d25.7159063!4d94.1090047!16s%2Fg%2F11ssbkssb0?entry=ttu", "_blank")}>{infoWindowData.adTitle}</p>
-                          <p className='markerSubTxt'>New Capital Complex, Secretariat</p>
+                          <p className='markerTxt' onClick={() => window.open("https://www.google.com/maps/place/Nagaland+Staff+Selection+Board/@25.7158996,94.1088023,19.46z/data=!4m14!1m7!3m6!1s0x37462313caa8c26f:0x3130df059fe53d32!2sNagaland+Staff+Selection+Board!8m2!3d25.7159063!4d94.1090047!16s%2Fg%2F11ssbkssb0!3m5!1s0x37462313caa8c26f:0x3130df059fe53d32!8m2!3d25.7159063!4d94.1090047!16s%2Fg%2F11ssbkssb0?entry=ttu", "_blank")}>IDAN</p>
+                          <p className='markerSubTxt'>Capital Convention Center</p>
                           <p className='markerSubTxt'>Kohima - 797001, Nagaland</p>
                           <Row>
                             <Col md={1} xs={1} sm={1}>
@@ -125,8 +120,8 @@ function MapComponent() {
                               />
                             </Col>
                             <Col md={5} xs={10} sm={10}>
-                              <a href={"tel:" + "+919366495971"}>
-                                <p className="contact-div1-subtitle-marker number">9366495971</p>
+                              <a href={"tel:" + "+91370221180"}>
+                                <p className="contact-div1-subtitle-marker number">+91370221180</p>
                               </a>
                             </Col>
                           </Row>

@@ -78,29 +78,62 @@ const employmentStatusOptions = [
   { value: "Others", label: "Others" }
 ]
 
+const bankOptions = [
+  { label: "Bank of Baroda", value: "Bank of Baroda" },
+  { label: "Bank of India", value: "Bank of India" },
+  { label: "Bank of Maharashtra", value: "Bank of Maharashtra" },
+  { label: "Canara Bank", value: "Canara Bank" },
+  { label: "Central Bank of India", value: "Central Bank of India" },
+  { label: "Indian Bank", value: "Indian Bank" },
+  { label: "Indian Overseas Bank", value: "Indian Overseas Bank" },
+  { label: "Punjab and Sind Bank", value: "Punjab and Sind Bank" },
+  { label: "Punjab National Bank", value: "Punjab National Bank" },
+  { label: "State Bank of India", value: "State Bank of India" },
+  { label: "UCO Bank", value: "UCO Bank" },
+  { label: "Union Bank of India", value: "Union Bank of India" },
+  { label: "Axis Bank", value: "Axis Bank" },
+  { label: "Bandhan Bank", value: "Bandhan Bank" },
+  { label: "CSB Bank", value: "CSB Bank" },
+  { label: "City Union Bank", value: "City Union Bank" },
+  { label: "DCB Bank", value: "DCB Bank" },
+  { label: "Dhanlaxmi Bank", value: "Dhanlaxmi Bank" },
+  { label: "Federal Bank", value: "Federal Bank" },
+  { label: "HDFC Bank", value: "HDFC Bank" },
+  { label: "ICICI Bank", value: "ICICI Bank" },
+  { label: "IDBI Bank", value: "IDBI Bank" },
+  { label: "IDFC First Bank", value: "IDFC First Bank" },
+  { label: "IndusInd Bank", value: "IndusInd Bank" },
+  { label: "Jammu & Kashmir Bank", value: "Jammu & Kashmir Bank" },
+  { label: "Karnataka Bank", value: "Karnataka Bank" },
+  { label: "Karur Vysya Bank", value: "Karur Vysya Bank" },
+  { label: "Kotak Mahindra Bank", value: "Kotak Mahindra Bank" },
+  { label: "Nainital Bank", value: "Nainital Bank" },
+  { label: "RBL Bank", value: "RBL Bank" },
+  { label: "South Indian Bank", value: "South Indian Bank" },
+  { label: "Tamilnad Mercantile Bank", value: "Tamilnad Mercantile Bank" },
+  { label: "Yes Bank", value: "Yes Bank" },
+  { label: "Nagaland Rural Bank", value: "Nagaland Rural Bank" }
+]
+
 const today = new Date();
 
 var passtportPhoto = null;
-var affidavitPhoto = null;
-var signaturePhoto = null;
-var pwdCertificate = null;
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAMQ3BmRsgCfZAC60WUIuVElJuHjS6bo2k",
-  authDomain: "nssb-nagaland.firebaseapp.com",
-  projectId: "nssb-nagaland",
-  storageBucket: "nssb-nagaland.appspot.com",
-  messagingSenderId: "892321318871",
-  appId: "1:892321318871:web:5f3d367adef5d3f3a3ad92",
-  measurementId: "G-4TVNHXXLL3"
-};
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
+}; 
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       layoutView: "Basics",
-      //layoutView: "Loan Info",
+      //layoutView: "Confirmation",
       loaderModal: false,
       APIStatus: "Creating Account",
 
@@ -110,11 +143,8 @@ class Register extends React.Component {
       firstName: "",
       middleName: "",
       lastName: "",
-      hasNameChanged: false,
-      isIndigenous: true,
-      legalName: "",
       phone: "",
-      gender: true,
+      gender: "Male",
       errors:{},
       count: 0,
       basicsChecked: false,
@@ -122,16 +152,9 @@ class Register extends React.Component {
       dateofbirth: "",
       unformattedDate: new Date(),
       passportPhoto: null,
-      affidavitPhoto: null,
-      signaturePhoto: null,
-      pwdCertificate: null,
       motherName: "",
       fatherName: "",
       martialStatus: null,
-      category: null,
-      isPWD: false,
-      pwdCategory: null,
-      publicizeMarks: true,
       
       countDown: 30,
       duplicateEmailModal: false,
@@ -149,6 +172,16 @@ class Register extends React.Component {
       employmentStatus: "",
       employerName: "",
       monthlyIncome: "",
+      loanTypeOptions: [],
+      loanType: "",
+      loanAmount: "",
+      loanPurpose: "",
+      bankName: "",
+      branchName: "",
+      bankDistrict: "",
+      bankBlockName: "",
+      isDPR: true,
+      bankInfoChecked: false,
 
       isTOC: true,
       fileTooLargeModal: false,
@@ -176,6 +209,21 @@ class Register extends React.Component {
     if(event.target.files[0]){
       this.handleImageCompress(event.target.files[0])
     }
+  }
+  getLoanType = async() => {
+    await fetch("https://csrnagaland.in/loanidan/api/getLoan_type.php", {
+      method: "GET",
+      headers: {
+        Accept: "application/json,  */*",
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        loanTypeOptions: responseJson
+      })
+    })
   }
   handleFirstName = (event) => {
     let errors = this.state.errors;
@@ -417,7 +465,7 @@ class Register extends React.Component {
     let user = {
       "phone_no": phoneTrimmed,
     };
-    await fetch("https://nssbrecruitment.in/admin/api/validate_phone_no.php", {
+    await fetch("https://csrnagaland.in/loanidan/api/validate_phone_no.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -452,7 +500,7 @@ class Register extends React.Component {
     let user = {
       "email": emailTrimmed,
     };
-    await fetch("https://nssbrecruitment.in/admin/api/emailOTP.php", {
+    await fetch("https://csrnagaland.in/loanidan/api/email_otp.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -524,7 +572,7 @@ class Register extends React.Component {
     let user = {
       "email": emailTrimmed,
     };
-    await fetch("https://nssbrecruitment.in/admin/api/emailOTP.php", {
+    await fetch("https://csrnagaland.in/loanidan/api/email_otp.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -686,7 +734,7 @@ class Register extends React.Component {
     this.setState({
       employerName: event.target.value,
     });
-    this.addressCheck();
+    this.loanCheck();
   }
   handleMonthlyIncome = (object) => {
     if (object.target.value.length <= object.target.maxLength) {
@@ -704,30 +752,182 @@ class Register extends React.Component {
     this.loanCheck();
   };
   loanCheck = () => {
-    const {streetName, town, district, pincode} = this.state;
-    let streetNameWarning = this.state.errors["street"];
-    let townWarning = this.state.errors["town"];
-    let pincodeWarning = this.state.errors["pincode"];
-    if(streetName != null && town != null && pincode != null && streetName != "" && town != "" && pincode != ""){
-      if(streetNameWarning == null && townWarning == null && pincodeWarning == null)
+    const {
+      employmentStatus,
+      employerName,
+      monthlyIncome,
+      loanType,
+      loanAmount,
+      loanPurpose,
+      bankName,
+      branchName,
+      bankDistrict,
+      bankBlockName
+    } = this.state;
+    let employmentStatusWarning = this.state.errors["employmentStatus"];
+    let employerNameWarning = this.state.errors["employerName"];
+    let monthlyIncomeWarning = this.state.errors["monthlyIncome"];
+    let loanTypeWarning = this.state.errors["loanType"];
+    let loanAmountWarning = this.state.errors["loanAmount"];
+    let loanPurposeWarning = this.state.errors["loanPurpose"];
+    let bankNameWarning = this.state.errors["bankName"];
+    let branchNameWarning = this.state.errors["branchName"];
+    let bankDistrictWarning = this.state.errors["bankDistrict"];
+    let bankBlockNameWarning = this.state.errors["bankBlockName"];
+    if(
+      employmentStatus != null && employmentStatus != "" &&
+      employerName != null && employerName != "" &&
+      monthlyIncome != null && monthlyIncome != "" &&
+      loanType != null && loanType != "" &&
+      loanAmount != null && loanAmount != "" &&
+      loanPurpose != null && loanPurpose != "" &&
+      bankName != null && bankName != "" &&
+      branchName != null && branchName != "" &&
+      bankDistrict != null && bankDistrict != "" &&
+      bankBlockName != null && bankBlockName != ""
+    ){
+      if(employmentStatusWarning == null &&
+        employerNameWarning == null &&
+        monthlyIncomeWarning == null &&
+        bankBlockNameWarning == null &&
+        loanTypeWarning == null &&
+        loanAmountWarning == null &&
+        loanPurposeWarning == null &&
+        bankNameWarning == null &&
+        branchNameWarning == null &&
+        bankDistrictWarning == null)
       {
         this.setState({
-          addressChecked: true
+          bankInfoChecked: true
         })
       }
       else{
         this.setState({
-          addressChecked: false
+          bankInfoChecked: false
         })
       }
     }
     else{
       this.setState({
-        addressChecked: false
+        bankInfoChecked: false
       })
     }
   }
-  //
+  handleLoanType = (loanType) =>{
+    if(loanType.value != undefined || loanType.value != "" || loanType.value != null){
+      this.setState({ loanType: loanType.value });
+      let errors = this.state.errors;
+      if (this.state.loanType != null || loanType.value) {
+        errors["loanType"] = null
+        this.setState({ errors: errors });
+      } else {
+        errors["loanType"] = "Select loan type";
+        this.setState({ errors: errors });
+      }
+    }
+    setTimeout(() => {
+      this.loanCheck();
+    }, 300);
+  }
+  handleLoanAmount = (object) => {
+    if (object.target.value.length <= object.target.maxLength) {
+      this.setState({ loanAmount: object.target.value });
+    }
+    let errors = this.state.errors;
+    if (object.target.value>1000) {
+      errors["loanAmount"] = null
+      this.setState({ errors: errors});
+    }
+     else {
+      errors["loanAmount"] = "Must be atleast above Rs. 1000";
+      this.setState({ errors: errors});
+    }
+    this.loanCheck();
+  }
+  handleLoanPurpose = (event) => {
+    let errors = this.state.errors;
+    let loanPurpose = event.target.value.length
+    if (loanPurpose>48) {
+      errors["loanPurpose"] = null
+      this.setState({ errors: errors});
+    }
+     else {
+      errors["loanPurpose"] = "Must be at least 50 characters";
+      this.setState({ errors: errors});
+    }
+    this.setState({
+      loanPurpose: event.target.value,
+    });
+    this.loanCheck();
+  }
+  handleBankName = (bankName) =>{
+    if(bankName.value != undefined || bankName.value != "" || bankName.value != null){
+      this.setState({ bankName: bankName.value });
+      let errors = this.state.errors;
+      if (this.state.bankName != null || bankName.value) {
+        errors["bankName"] = null
+        this.setState({ errors: errors });
+      } else {
+        errors["bankName"] = "Select a bank";
+        this.setState({ errors: errors });
+      }
+    }
+    setTimeout(() => {
+      this.loanCheck();
+    }, 300);
+  }
+  handleBranchName = (event) => {
+    let errors = this.state.errors;
+    let branchName = event.target.value.length
+    if (branchName>0) {
+      errors["branchName"] = null
+      this.setState({ errors: errors});
+    }
+     else {
+      errors["branchName"] = "Must not be empty";
+      this.setState({ errors: errors});
+    }
+    this.setState({
+      branchName: event.target.value,
+    });
+    this.loanCheck();
+  }
+  handleBankDistrict = (bankDistrict) =>{
+    if(bankDistrict.value != undefined || bankDistrict.value != "" || bankDistrict.value != null){
+      this.setState({ bankDistrict: bankDistrict.value });
+      let errors = this.state.errors;
+      if (this.state.bankDistrict != null || bankDistrict.value) {
+        errors["bankDistrict"] = null
+        this.setState({ errors: errors });
+      } else {
+        errors["bankDistrict"] = "Select district";
+        this.setState({ errors: errors });
+      }
+    }
+    setTimeout(() => {
+      this.loanCheck();
+    }, 300);
+  }
+  handleBankBlock = (event) =>{
+    let errors = this.state.errors;
+    let bankBlockName = event.target.value.length
+    if (bankBlockName>0) {
+      errors["bankBlockName"] = null
+      this.setState({ errors: errors});
+    }
+     else {
+      errors["bankBlockName"] = "Must not be empty";
+      this.setState({ errors: errors});
+    }
+    this.setState({
+      bankBlockName: event.target.value,
+    });
+    setTimeout(() => {
+      this.loanCheck();
+    }, 300);
+  }
+
+  //REVIEW
   tocUpdate(e) {
     this.setState({ isTOC: !e.target.checked });
   }
@@ -753,7 +953,7 @@ class Register extends React.Component {
   };
   uploadPassport = async(userID) => {
     let random = Math.floor(Math.random() * 10000000) + 1;
-    let fullName = this.state.fullName;
+    let fullName = this.state.firstName+this.state.middleName+this.state.lastName;
     const nameWithoutSpaces = fullName.replace(/\s/g, "");
     let fileName = nameWithoutSpaces + '_passport_' + userID + "_" + random;
 
@@ -772,13 +972,17 @@ class Register extends React.Component {
           this.updatePassportPhoto(userID, url);
         })
     })
+    .catch((error) => {
+      console.error(error);
+    });
   }
   updatePassportPhoto = async(userID, url) => {
     let user = {
-      "user_id": userID,
-      "passport_image": url
-    };
-    await fetch("https://nssbrecruitment.in/admin/api/passport_image.php", {
+      passport_photo: url,
+      id: userID
+    }
+    console.log(user)
+    await fetch("https://csrnagaland.in/loanidan/api/upload_passport.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -788,143 +992,7 @@ class Register extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      this.uploadSignature(userID)
-    })
-  }
-  uploadSignature = async(userID) => {
-    let random = Math.floor(Math.random() * 10000000) + 1;
-    let fullName = this.state.fullName;
-    const nameWithoutSpaces = fullName.replace(/\s/g, "");
-    let fileName = nameWithoutSpaces + '_signature_' + userID + "_" + random;
-
-    this.setState({
-      loaderModal: true,
-      APIStatus: "Uploading Signature"
-    })
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
-    let file = signaturePhoto;
-    let imageName = fileName;
-    const storageRef = ref(storage, imageName);
-    await uploadBytes(storageRef, file)
-    .then(() => {
-        getDownloadURL(storageRef).then((url)=> {
-          this.updateSignaturePhoto(userID, url);
-        })
-    })
-  }
-  updateSignaturePhoto = async(userID, url) => {
-    let user = {
-      "user_id": userID,
-      "signature_docs": url
-    };
-    await fetch("https://nssbrecruitment.in/admin/api/upload_signature.php", {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        Accept: "application/json,  */*",
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((response) => response.json())
-    .then(async(responseJson) => {
-      await this.uploadAffidavit(userID)
-    })
-  }
-  uploadAffidavit = async(userID) => {
-    if(this.state.hasNameChanged == true && affidavitPhoto != null){
-      let random = Math.floor(Math.random() * 10000000) + 1;
-      let fullName = this.state.fullName;
-      const nameWithoutSpaces = fullName.replace(/\s/g, "");
-      let fileName = nameWithoutSpaces + '_affidavit_' + userID + "_" + random;
-      
-      this.setState({
-        loaderModal: true,
-        APIStatus: "Uploading Affidavit"
-      })
-      const app = initializeApp(firebaseConfig);
-      const storage = getStorage(app);
-      let file = affidavitPhoto;
-      let imageName = fileName;
-      const storageRef = ref(storage, imageName);
-      await uploadBytes(storageRef, file)
-      .then(() => {
-          getDownloadURL(storageRef).then((url)=> {
-            this.updateAffidavitDocument(userID, url);
-          })
-      })
-    }
-    else{
-      await this.uploadPWDCertificate(userID)
-    }
-    
-  }
-  updateAffidavitDocument = async(userID, url) => {
-    let user = {
-      "user_id": userID,
-      "affidavit": url
-    };
-    await fetch("https://nssbrecruitment.in/admin/api/upload_affidavit.php", {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        Accept: "application/json,  */*",
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((response) => response.json())
-    .then(async(responseJson) => {
-      await this.uploadPWDCertificate(userID)
-    })
-  }
-  uploadPWDCertificate = async(userID) => {
-    if(this.state.isPWD == true && pwdCertificate != null){
-      let random = Math.floor(Math.random() * 10000000) + 1;
-      let fullName = this.state.fullName;
-      const nameWithoutSpaces = fullName.replace(/\s/g, "");
-      let fileName = nameWithoutSpaces + '_PwD_certificate_' + userID + "_" + random;
-      
-      this.setState({
-        loaderModal: true,
-        APIStatus: "Uploading PwD Certificate"
-      })
-      const app = initializeApp(firebaseConfig);
-      const storage = getStorage(app);
-      let file = pwdCertificate;
-      let imageName = fileName;
-      const storageRef = ref(storage, imageName);
-      await uploadBytes(storageRef, file)
-      .then(() => {
-          getDownloadURL(storageRef).then((url)=> {
-            this.updatePWDCertificate(userID, url);
-          })
-      })
-    }
-    else{
-      this.setState({
-        loaderModal: false,
-        APIStatus: ""
-      })
-      let url = window.location.origin + "/profile";
-      window.location.replace(url)
-    }
-    
-  }
-  updatePWDCertificate = async(userID, url) => {
-    let user = {
-      "user_id": userID,
-      "pwd_docs": url
-    };
-    await fetch("https://nssbrecruitment.in/admin/api/upload_PWD.php", {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        Accept: "application/json,  */*",
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
+      console.log(responseJson)
       this.setState({
         loaderModal: false,
         APIStatus: ""
@@ -932,6 +1000,9 @@ class Register extends React.Component {
       let url = window.location.origin + "/profile";
       window.location.replace(url)
     })
+    .catch((error) => {
+      console.error(error);
+    });
   }
   changeStepper = (index) => {
     if(index === "Verify Email"){}
@@ -956,58 +1027,76 @@ class Register extends React.Component {
     if(userData){
         this.props.history.push("/profile");
     }
+    else{
+      this.getLoanType()
+    }
   }
   handleRegister = async () => {
     this.setState({
       loaderModal: true,
       APIStatus: "Creating Account"
     })
-    const { email,
-            password,
-            fullName,
-            legalName,
-            phone,
-            dateofbirth,
-            motherName,
-            fatherName,
-            streetName,
-            town,
-            district,
-            pincode} = this.state;
+    const {
+      email,
+      password,
+      firstName,
+      middleName,
+      lastName,
+      phone,
+      gender,
+      dateofbirth,
+      motherName,
+      fatherName,
+      martialStatus,
+      streetName,
+      town,
+      district,
+      pincode,
+      employmentStatus,
+      employerName,
+      monthlyIncome,
+      loanType,
+      loanAmount,
+      loanPurpose,
+      bankName,
+      branchName,
+      bankDistrict,
+      bankBlockName,
+      isDPR
+    } = this.state;
 
-    let gender = this.state.gender === true ? "MALE" : "FEMALE";
     let emailTrimmed = email.trim();
-    let isIndigenous = this.state.isIndigenous === true ? "Yes" : "No"
-    let hasNameChanged = this.state.hasNameChanged === true ? "Yes" : "No"
-    let isPWD = this.state.isPWD === true ? "Yes" : "No"
-    let tribe = this.state.tribe === null ? "" : this.state.tribe;
-    let category = this.state.category === null ? "" : this.state.category;
-    let pwdCategory = this.state.pwdCategory === null ? "" : this.state.pwdCategory;
 
     let user = {
+      "f_name": firstName,
+      "m_name": middleName,
+      "l_name": lastName,
+      "father_name": fatherName,
+      "mother_name": motherName,
+      "street_addr": streetName,
+      "city": town,
+      "district": district,
+      "zip_code": pincode,
+      "phone_no": phone,
       "email": emailTrimmed,
       "password": password,
-      "full_name": fullName,
-      "gender": gender,
-      "has_name_changed": hasNameChanged,
-      "is_indegeneous": isIndigenous,
-      "legal_name": legalName,
-      "phone_no": phone,
       "date_of_birth": dateofbirth,
-      "mother_name": motherName,
-      "father_name": fatherName,
-      "tribe": tribe,
-      "tribe_category": category,
-      "is_pwd": isPWD,
-      "pwd_category": pwdCategory,
-      "colony_name": streetName,
-      "town": town,
-      "district": district,
-      "pincode": pincode,
-      "is_publicise_marks": this.state.publicizeMarks == true ? "Yes" : "No"
-    };
-
-    await fetch("https://nssbrecruitment.in/admin/api/register.php", {
+      "gender": gender,
+      "marital_status": martialStatus,
+      "emp_status": employmentStatus,
+      "employer_name": employerName,
+      "income": monthlyIncome,
+      "loan_type_id": loanType,
+      "loan_amount": loanAmount,
+      "loan_purpose": loanPurpose,
+      "bank_name": bankName,
+      "branch_name": branchName,
+      "bank_dist_name": bankDistrict,
+      "block_name": bankBlockName,
+      "dpr": isDPR ? "Yes" : "No",
+      "consent": "Yes"
+  };
+  await fetch("https://csrnagaland.in/loanidan/api/register.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -1017,13 +1106,15 @@ class Register extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log(responseJson)
       if(responseJson && responseJson.Status == "Account already exists, please re-try again"){
         this.setState({
+          loaderModal: false,
           duplicateEmailModal: true
         })
       }
       else{
-        this.storeData(responseJson);
+        this.storeData(responseJson[0]);
         setTimeout(() => {
           this.uploadPassport(responseJson[0].id)
         }, 100);
@@ -1031,7 +1122,7 @@ class Register extends React.Component {
     })
   }
   render() {
-    const { district, gender, hasNameChanged, isIndigenous, martialStatus, employmentStatus, publicizeMarks} = this.state;
+    const { district, gender, martialStatus, employmentStatus, loanTypeOptions, loanType, bankName, bankDistrict, isDPR} = this.state;
     let index = 0
     if(this.state.layoutView === "Basics"){
       index = 0
@@ -1398,10 +1489,10 @@ class Register extends React.Component {
                         <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
                             <>
                                 <Checkbox
-                                    checked={gender}
+                                    checked={gender == "Male" ? true : false}
                                     onFocus={this.basicsCheck}
                                     onBlur={this.basicsCheck}
-                                    onChange={() => this.setState({gender: true})}
+                                    onChange={() => this.setState({gender: "Male"})}
                                     icon={<BsCircle size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
                                     checkedIcon={<BsCheckCircleFill size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
                                 />
@@ -1411,10 +1502,10 @@ class Register extends React.Component {
                         <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
                             <>
                                 <Checkbox
-                                    checked={!gender}
+                                    checked={gender == "Female" ? true : false}
                                     onFocus={this.basicsCheck}
                                     onBlur={this.basicsCheck}
-                                    onChange={() => this.setState({gender: false})}
+                                    onChange={() => this.setState({gender: "Female"})}
                                     icon={<BsCircle size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
                                     checkedIcon={<BsCheckCircleFill size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
                                 />
@@ -1486,8 +1577,8 @@ class Register extends React.Component {
                           {  
                               this.state.errors["phone"] ? (
                                   <span
-                                      id="marginInputs"
-                                      className="validateErrorTxt registerInputMargin"
+                                    id="marginInputs"
+                                    className="validateErrorTxt"
                                   >
                                       {this.state.errors["phone"]}
                                   </span>
@@ -1791,7 +1882,7 @@ class Register extends React.Component {
                  this.state.layoutView === "Loan Info" ?
                  <div className="register_containerBox_inner">
                       <p className="login_header_text" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Employment Information</p>
-                      <p className="login_subheader_text" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Kindly provide the below details related to your employment & loan facilty requirements.</p>
+                      <p className="login_subheader_text_bankInfo" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Kindly provide the below details related to your employment & loan facilty requirements.</p>
                       <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employment Status *</p>
                       <Select
                         onChange={this.handleEmploymentStatus}
@@ -1827,7 +1918,7 @@ class Register extends React.Component {
                       }
                       <Row>
                         <Col md={6} xs={12} sm={12}>
-                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employer Name *</p>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employer's Name *</p>
                           <input
                               className="emailInput"
                               type="text"
@@ -1875,20 +1966,20 @@ class Register extends React.Component {
                       </Row>
                       <br/>
                       <p className="login_header_text" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Loan Information</p>
-                      <p className="login_subheader_text" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Kindly provide the below details related to your employment & loan facilty requirements.</p>
+                      <p className="login_subheader_text_bankInfo" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Kindly provide the below details related to your employment & loan facilty requirements.</p>
                       <Row>
                         <Col md={6} x={12} sm={12}>
                           <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Type *</p>
                           <Select
-                            onChange={this.handleEmploymentStatus}
+                            onChange={this.handleLoanType}
                             isSearchable={false}
                             onFocus={this.loanCheck}
                             onBlur={this.loanCheck}
-                            value={employmentStatusOptions.find(
-                              (item) => item.value === employmentStatus
+                            value={loanTypeOptions.find(
+                              (item) => item.value === loanType
                             )}
-                            placeholder={<div>Select Employment Status</div>}
-                            options={employmentStatusOptions}
+                            placeholder={<div>Select Loan Type</div>}
+                            options={loanTypeOptions}
                             styles={{
                               control: (provided, state) => ({
                                 ...provided,
@@ -1901,12 +1992,12 @@ class Register extends React.Component {
                             }}
                           />
                           {  
-                            this.state.errors["employmentStatus"] ? (
+                            this.state.errors["loanType"] ? (
                                 <span
                                     id="marginInputs"
                                     className="validateErrorTxt registerInputMargin"
                                 >
-                                    {this.state.errors["employmentStatus"]}
+                                    {this.state.errors["loanType"]}
                                 </span>
                             ) :
                             <div className="genderMargins"></div>
@@ -1918,22 +2009,194 @@ class Register extends React.Component {
                               className="emailInput"
                               type = "number" maxLength={10}
                               placeholder="Enter your monthly income in Indian Rupees"
-                              onChange={this.handleMonthlyIncome}
-                              onFocus={this.handleMonthlyIncome}
+                              onChange={this.handleLoanAmount}
+                              onFocus={this.handleLoanAmount}
                               onBlur={this.loanCheck}
-                              value={this.state.monthlyIncome}
+                              value={this.state.loanAmount}
                           />
                           {  
-                            this.state.errors["monthlyIncome"] ? (
+                            this.state.errors["loanAmount"] ? (
                                 <span
                                     id="marginInputs"
                                     className="validateErrorTxt registerInputMargin"
                                 >
-                                    {this.state.errors["monthlyIncome"]}
+                                    {this.state.errors["loanAmount"]}
                                 </span>
                             ) :
                             <div className="registerInputMargin"></div>
                           }
+                        </Col>
+                      </Row>
+                      <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Purpose *</p>
+                      <textarea
+                          className="loanPurpose"
+                          placeholder="Enter the loan purpose in details"
+                          onChange={this.handleLoanPurpose}
+                          rows={5}
+                          onFocus={this.handleLoanPurpose}
+                          onBlur={this.loanCheck}
+                          value={this.state.loanPurpose}
+                      />
+                      {  
+                        this.state.errors["loanPurpose"] ? (
+                            <span
+                                id="marginInputs"
+                                className="validateErrorTxt registerInputMargin"
+                            >
+                                {this.state.errors["loanPurpose"]}
+                            </span>
+                        ) :
+                        <div className="registerInputMargin"></div>
+                      }
+                      <p className="login_header_text" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Bank Account Details</p>
+                      <p className="login_subheader_text_bankInfo" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Kindly provide your bank details from where loan to be sought.</p>
+                      <Row>
+                        <Col md={6} xs={12} sm={12}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Bank Name *</p>
+                          <Select
+                            onChange={this.handleBankName}
+                            isSearchable={true}
+                            onFocus={this.loanCheck}
+                            onBlur={this.loanCheck}
+                            value={bankOptions.find(
+                              (item) => item.value === bankName
+                            )}
+                            placeholder={<div>Select bank</div>}
+                            options={bankOptions}
+                            styles={{
+                              control: (provided, state) => ({
+                                ...provided,
+                                height: 50,
+                                borderRadius: 8,
+                                marginTop: 5,
+                                borderWidth: state.isFocused ? 1 : 1,
+                                border: state.isFocused ? "1px solid #0783de" : "1px solid #C6C6C6"
+                              })
+                            }}
+                          />
+                          {  
+                            this.state.errors["bankName"] ? (
+                                <span
+                                    id="marginInputs"
+                                    className="validateErrorTxt registerInputMargin"
+                                >
+                                    {this.state.errors["bankName"]}
+                                </span>
+                            ) :
+                            <div className="genderMargins"></div>
+                          }
+                        </Col>
+                        <Col md={6} xs={12} sm={12}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Branch Name *</p>
+                          <input
+                              className="emailInput"
+                              type = "text"
+                              placeholder="Enter your branch name"
+                              onChange={this.handleBranchName}
+                              onFocus={this.handleBranchName}
+                              onBlur={this.loanCheck}
+                              value={this.state.branchName}
+                          />
+                          {  
+                            this.state.errors["branchName"] ? (
+                                <span
+                                    id="marginInputs"
+                                    className="validateErrorTxt registerInputMargin"
+                                >
+                                    {this.state.errors["branchName"]}
+                                </span>
+                            ) :
+                            <div className="registerInputMargin"></div>
+                          }
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={6} xs={12} sm={12}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>District *</p>
+                          <Select
+                            onChange={this.handleBankDistrict}
+                            isSearchable={true}
+                            onFocus={this.loanCheck}
+                            onBlur={this.loanCheck}
+                            value={districtOptions.find(
+                              (item) => item.value === bankDistrict
+                            )}
+                            placeholder={<div>Select district</div>}
+                            options={districtOptions}
+                            styles={{
+                              control: (provided, state) => ({
+                                ...provided,
+                                height: 50,
+                                borderRadius: 8,
+                                marginTop: 5,
+                                borderWidth: state.isFocused ? 1 : 1,
+                                border: state.isFocused ? "1px solid #0783de" : "1px solid #C6C6C6"
+                              })
+                            }}
+                          />
+                          {  
+                            this.state.errors["bankDistrict"] ? (
+                                <span
+                                    id="marginInputs"
+                                    className="validateErrorTxt registerInputMargin"
+                                >
+                                    {this.state.errors["bankDistrict"]}
+                                </span>
+                            ) :
+                            <div className="genderMargins"></div>
+                          }
+                        </Col>
+                        <Col md={6} xs={12} sm={12}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Block *</p>
+                          <input
+                              className="emailInput"
+                              type = "text"
+                              placeholder="Enter your branch's block"
+                              onChange={this.handleBankBlock}
+                              onFocus={this.handleBankBlock}
+                              onBlur={this.loanCheck}
+                              value={this.state.bankBlockName}
+                          />
+                          {  
+                            this.state.errors["bankBlockName"] ? (
+                                <span
+                                    id="marginInputs"
+                                    className="validateErrorTxt registerInputMargin"
+                                >
+                                    {this.state.errors["bankBlockName"]}
+                                </span>
+                            ) :
+                            <div className="registerInputMargin"></div>
+                          }
+                        </Col>
+                      </Row>
+                      <Row style={{marginTop:"0.5%"}}>
+                        <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Do you need a DPR (Detailed Project Report)?</p>
+                        <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
+                            <>
+                                <Checkbox
+                                    checked={isDPR}
+                                    onFocus={this.loanCheck}
+                                    onBlur={this.loanCheck}
+                                    onChange={() => this.setState({isDPR: true})}
+                                    icon={<BsCircle size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
+                                    checkedIcon={<BsCheckCircleFill size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
+                                />
+                                <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>Yes</span>
+                            </>
+                        </Col>
+                        <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
+                            <>
+                                <Checkbox
+                                    checked={!isDPR}
+                                    onFocus={this.loanCheck}
+                                    onBlur={this.loanCheck}
+                                    onChange={() => this.setState({isDPR: false})}
+                                    icon={<BsCircle size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
+                                    checkedIcon={<BsCheckCircleFill size={fontSize >20 ? fontSize : 20} className="chbk-icons"/>}
+                                />
+                                <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>No</span>
+                            </>
                         </Col>
                       </Row>
                       <Row>
@@ -1944,7 +2207,7 @@ class Register extends React.Component {
                         </Col>
                         <Col md={6} xs={6} sm={6}>
                           {
-                            this.state.addressChecked ?
+                            this.state.bankInfoChecked ?
                               <div className="login_button" onClick={() => this.setState({layoutView: "Confirmation"})}>
                                   <p className="login_signup_ques_text_white">Next</p>
                               </div>
@@ -2000,59 +2263,15 @@ class Register extends React.Component {
                           </div>
                         </Col>
                       </Row>
-                      <Row>
-                        <Col md={8} xs={6} sm={6}>
-                          <div className="passtport_header">
-                            <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Signature</p>
-                            <p style={{marginLeft: 4, fontSize: fontSize >17 ? `${fontSize}px` : '15px'}} className="passport_subheader_text">Photo should have white background & good quality.</p>
-                            <p style={{marginLeft: 4, fontSize: fontSize >17 ? `${fontSize}px` : '15px'}} className="passport_subheader_text">Only JPG, PNG & JPEG allowed.</p>
-                          </div>
-                        </Col>
-                        <Col md={4} xs={6} sm={6}>
-                          <div className="emptySignature"  onClick={() => document.getElementById('signatureInput').click()}>
-                            <div>
-                              <center>
-                                {
-                                  this.state.signaturePhoto === null ?
-                                    <>
-                                      <img src={passport_upload} className="signature_empty_img" alt="select image" />
-                                      <p className="passport_empty_txt">Select Image</p>
-                                    </>
-                                  :
-                                    <img src={this.state.signaturePhoto} className="signature_img" alt="select image" />
-                                }
-                                
-                              </center>
-                            </div>
-                            <input
-                              type="file"
-                              id="signatureInput"
-                              accept="image/jpg, image/jpeg, image/png"
-                              onChange={this.handleSignatureSelect}
-                              style={{ display: 'none' }}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
                       <br/>
                       <Row className="confirmationTXT_margins">
-                        <Col md={6} xs={12} sm={12}>
+                        <Col md={6} xs={6} sm={6}>
                           <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Full Name</p>
-                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.fullName}</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.firstName + " " +  this.state.middleName + " " +  this.state.lastName}</p>
                         </Col>
-                        <Col md={6} xs={12} sm={12}>
-                          {
-                            hasNameChanged ?
-                            <>
-                              <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Legal Name*</p>
-                              <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.legalName}</p>
-                            </>
-                            :
-                            <>
-                              <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Did you change your name?</p>
-                              <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>No</p>
-                            </>
-                          }
+                        <Col md={6} xs={6} sm={6}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Maritial Status</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.martialStatus}</p>
                         </Col>
                       </Row>
                       <Row className="confirmationTXT_margins">
@@ -2090,21 +2309,6 @@ class Register extends React.Component {
                           <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.motherName}</p>
                         </Col>
                       </Row>
-                      {
-                        isIndigenous ?
-                          <Row className="confirmationTXT_margins">
-                            <Col md={6} xs={6} sm={6}>
-                              <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Tribe</p>
-                              <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.tribe}</p>
-                            </Col>
-                            <Col md={6} xs={6} sm={6}>
-                              <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Category</p>
-                              <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.category}</p>
-                            </Col>
-                          </Row>
-                          :
-                          <></>
-                      }
                       <Row className="confirmationTXT_margins">
                         <Col md={6}>
                           <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>House No. & Street</p>
@@ -2126,45 +2330,29 @@ class Register extends React.Component {
                         </Col>
                       </Row>
                       <Row className="confirmationTXT_margins">
-                        <Col md={6}>
-                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Do you belong to PwD?</p>
-                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.isPWD ? "Yes" : "No"}</p>
+                        <Col md={6} xs={6} sm={6}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employment Status</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.employmentStatus}</p>
                         </Col>
-                        <Col md={6}>
-                         {
-                          this.state.isPWD ?
-                          <>
-                            <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Category of PwD</p>
-                            <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.pwdCategory}</p>
-                          </>
-                          :
-                          <></>
-                         }
+                        <Col md={6} xs={6} sm={6}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employer Name</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.employerName}</p>
                         </Col>
                       </Row>
-                      <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Do you wish to disclose your marks in the public domain?</p>
-                      <Row style={{marginBottom:"3.6%"}}>
-                        <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
-                            <>
-                                <Checkbox
-                                    checked={publicizeMarks}
-                                    onChange={() => this.setState({publicizeMarks: true})}
-                                    icon={<BsCircle size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
-                                    checkedIcon={<BsCheckCircleFill size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
-                                />
-                                <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>Yes</span>
-                            </>
+                      <Row className="confirmationTXT_margins">
+                        <Col md={6} xs={6} sm={6}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Monthly Income</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>₹{this.state.monthlyIncome}</p>
                         </Col>
-                        <Col style={{marginTop:"1%"}} md={2} xs={5} sm={5}>
-                            <>
-                                <Checkbox
-                                    checked={!publicizeMarks}
-                                    onChange={() => this.setState({publicizeMarks: false})}
-                                    icon={<BsCircle size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
-                                    checkedIcon={<BsCheckCircleFill size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
-                                />
-                                <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>No</span>
-                            </>
+                        <Col md={6} xs={6} sm={6}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Amount</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>₹{this.state.loanAmount}</p>
+                        </Col>
+                      </Row>
+                      <Row className="confirmationTXT_margins_2">
+                        <Col md={12} xs={12} sm={12}>
+                          <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Purpose</p>
+                          <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.loanPurpose}</p>
                         </Col>
                       </Row>
                       <div>
@@ -2174,11 +2362,11 @@ class Register extends React.Component {
                             icon={<BsCircle size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
                             checkedIcon={<BsCheckCircleFill size={fontSize > 21 ? fontSize : 20} className="chbk-icons"/>}
                         />
-                        <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>I Agree that <b>all the information I submitted are correct & true.</b></span>
+                        <span className="newDemo-radio-txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16px' }}>I declare <b>that the information provided is accurate and complete to the best of my knowledge. I consent to the processing of my personal data for the purpose of this loan application</b></span>
                       </div>
                       <Row>
                         <Col md={6} sm={6} xs={6}>
-                          <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Addresses"})}>
+                          <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Loan Info"})}>
                             <p className="login_signup_ques_text_blue">Go Back</p>
                           </div>
                         </Col>

@@ -178,6 +178,17 @@ html{
         color: #222;
         font-size: 16px;
     }
+    textarea.loanPurpose{
+        border-radius: 8px;
+        width: 100%;
+        border: 1px solid #C6C6C6;
+        height: 150px;
+        padding-left: 13px;
+        margin-top: 5px;
+        color: #222;
+        font-size: 16px;
+        margin-bottom: 6%;
+    }
     .register_containerBox_inner{
         margin-top: 3%;
         background-color: transparent;
@@ -331,6 +342,19 @@ html{
         border-radius: 5px;
         padding: 3px;
     }
+    p.login_subheader_text_bankInfo{
+        font-family: 'Rubik', sans-serif;
+        color: #818181;
+        margin-bottom: 0px;
+    }
+    p.confirmationText{
+        font-family: 'Rubik', sans-serif;
+        font-size: 15px;
+        color: #222;
+        font-weight: 400;
+        margin-left: 4.5px;
+        margin-bottom: 0%;
+    }
 }
 .otp_input_center{
     display: flex;
@@ -416,6 +440,22 @@ span.OTR_SuccessfulMessageSpan{
     object-fit: cover !important;
 }
 @media only screen and (min-width: 600px) {
+    p.login_subheader_text_bankInfo{
+        font-family: 'Rubik', sans-serif;
+        color: #818181;
+        margin-bottom: 4%;
+    }
+    textarea.loanPurpose{
+        border-radius: 8px;
+        width: 100%;
+        border: 1px solid #C6C6C6;
+        height: 150px;
+        padding-left: 13px;
+        margin-top: 5px;
+        color: #222;
+        padding-top: 10px;
+        font-size: 16px;
+    }
     p.dob_txt{
         margin-top: 1px;
         color: #807f7f !important;
@@ -499,6 +539,9 @@ span.OTR_SuccessfulMessageSpan{
     .confirmationTXT_margins{
         margin-top: 2.5%;
         margin-bottom: 2.5%;
+    }
+    .confirmationTXT_margins_2{
+        margin-top: 2.5%;
     }
     .signature_empty_img{
         margin-top: 5%;
@@ -719,6 +762,14 @@ span.OTR_SuccessfulMessageSpan{
         margin-bottom: 8.5%;
         margin-top: 6%;
     }
+    p.confirmationText{
+        font-family: 'Rubik', sans-serif;
+        font-size: 15px;
+        color: #222;
+        font-weight: 400;
+        margin-left: 4.5px;
+        margin-bottom: 4%;
+    }
 }
 p.modal_header_text{
     font-family: 'Rubik', sans-serif;
@@ -746,13 +797,14 @@ p.passport_subheader_text{
     color: #818181;
     margin-bottom: 0px;
 }
-p.confirmationText{
+
+p.loanPurposeText{
     font-family: 'Rubik', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     color: #222;
     font-weight: 400;
     margin-left: 4.5px;
-    margin-bottom: 4%;
+    margin-bottom: 0%;
 }
 .calenderLayout{
     padding: 0px !important;

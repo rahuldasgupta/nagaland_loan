@@ -250,20 +250,19 @@ var signaturePhoto = null;
 var pwdCertificate = null;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAMQ3BmRsgCfZAC60WUIuVElJuHjS6bo2k",
-    authDomain: "nssb-nagaland.firebaseapp.com",
-    projectId: "nssb-nagaland",
-    storageBucket: "nssb-nagaland.appspot.com",
-    messagingSenderId: "892321318871",
-    appId: "1:892321318871:web:5f3d367adef5d3f3a3ad92",
-    measurementId: "G-4TVNHXXLL3"
-};
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
+}; 
 
 class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userData: [],
+            userData: {},
             layoutView: "Profile",
             profileEditMode: false,
             educationEditMode: false,
@@ -333,7 +332,7 @@ class Profile extends React.Component {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     var userData = JSON.parse(localStorage.getItem('userData'));
     if(userData){
-        this.getUserData(userData[0].id, userData[0].auth_bearer_token)
+        this.getUserData(userData.id, userData.auth_bearer_token)
     }
     else{
         this.props.history.push("/login");
@@ -343,7 +342,7 @@ class Profile extends React.Component {
     let user = {
         "user_id": userID
     }
-    await fetch("https://nssbrecruitment.in/admin/api/get_user_details.php", {
+    await fetch("https://csrnagaland.in/loanidan/api/get_applicant_details.php", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -358,160 +357,13 @@ class Profile extends React.Component {
             localStorage.clear();
             this.props.history.push("/login");
         }
-        this.setState({
-            userData: responseJson.userData,
-            email: responseJson.userData[0].email,
-            fullName: responseJson.userData[0].full_name,
-            hasNameChanged: responseJson.userData[0].has_name_changed == "Yes" ? true : false,
-            isIndigenous:  responseJson.userData[0].is_indegeneous == "Yes" ? true : false,
-            legalName: responseJson.userData[0].legal_name,
-            gender: responseJson.userData[0].gender == "MALE" ? true : false,
-            dateofbirth: responseJson.userData[0].date_of_birth,
-            passportPhoto: responseJson.userData[0].passport_photo,
-            signaturePhoto: responseJson.userData[0].signature_docs,
-            affidavitPhoto: responseJson.userData[0].affidavit_docs === "" ? null : " File Already Uploaded (Tap to change)",
-            pwdCertificate: responseJson.userData[0].pwd_docs === "" ? null : " File Already Uploaded (Tap to change)",
-            motherName: responseJson.userData[0].mother_name,
-            fatherName: responseJson.userData[0].father_name,
-            tribe: responseJson.userData[0].tribe,
-            category: responseJson.userData[0].tribe_category,
-            isPWD: responseJson.userData[0].is_pwd == "Yes" ? true : false,
-            pwdCategory: responseJson.userData[0].pwd_category,
-            streetName: responseJson.userData[0].colony_name,
-            town: responseJson.userData[0].town,
-            district: responseJson.userData[0].district,
-            pincode: responseJson.userData[0].pincode
-        })
-        if(this.state.userData[1].education_details.length > 1 || this.state.userData[2].certificate_details.length > 0){
+        else{
+            console.log(responseJson.ApplicantData[0])
             this.setState({
-                doesEducationExists: true,
+                userData: responseJson.ApplicantData[0],
+                loaderModal: false
             })
         }
-        if(this.state.userData[1].education_details.length > 0){
-            this.setState({
-                isClass10Submitted: true,
-            })
-            degreeOptions = [
-                { value: "Class 10", label: "Class 10" },
-                { value: "Class 12", label: "Class 12" },
-            
-                { value: "Diploma in Computer Application", label: "Diploma in Computer Application" },
-                { value: "Diploma in Computer Application & Networking", label: "Diploma in Computer Application & Networking (DCAN)" },
-                { value: "Diploma in Mechanical Engineering", label: "Diploma in Mechanical Engineering" },
-                { value: "Diploma in Chemical Engineering", label: "Diploma in Chemical Engineering" },
-                { value: "Diploma in Electronics & Telecommunication", label: "Diploma in Electronics & Telecommunication" },
-                { value: "Diploma in Textile Engineering", label: "Diploma in Textile Engineering" },
-                { value: "Diploma in Architectual Engineering", label: "Diploma in Architectual Engineering" },
-                { value: "Diploma in Automobile Engineering", label: "Diploma in Automobile Engineering" },
-                { value: "Diploma in Plastic Engineering", label: "Diploma in Plastic Engineering" },
-                { value: "Diploma in Civil Engineering", label: "Diploma in Civil Engineering" },
-                { value: "Diploma in Electrical Engineering", label: "Diploma in Electrical Engineering" },
-                { value: "Diploma in Computer Science Engineering", label: "Diploma in Computer Science Engineering" },
-                { value: "Diploma in Information Technology", label: "Diploma in Information Technology" },
-                { value: "Diploma in Metallurgy Engineering", label: "Diploma in Metallurgy Engineering" },
-                { value: "Diploma in Fine Arts", label: "Diploma in Fine Arts" },
-                { value: "Diploma in Fashion Designing", label: "Diploma in Fashion Designing" },
-                { value: "Diploma in Soft Skill", label: "Diploma in Soft Skill" },
-                { value: "Diploma in Baking & Confectionery", label: "Diploma in Baking & Confectionery" },
-                { value: "Diploma in Hairstyling", label: "Diploma in Hairstyling" },
-                { value: "Diploma in Office Management", label: "Diploma in Office Management" },
-                { value: "Diploma in Public Hygiene & Sanitation Technology", label: "Diploma in Public Hygiene & Sanitation Technology" },
-            
-                { value: "Pre-Service Teacher Education", label: "Pre-Service Teacher Education (P.S.T.E)" },
-            
-                { value: "Bachelor of Arts", label: "Bachelor of Arts (B.A)" },
-                { value: "Bachelor of Arts Bachelor of Education", label: "Bachelor of Arts Bachelor of Education (B.A B.Ed)" },
-                { value: "Bachelor of Arts Bachelor of Law", label: "Bachelor of Arts Bachelor of Law (B.A.LLB)" },
-                { value: "Bachelor of Ayurvedic Medicine and Surgery", label: "Bachelor of Ayurvedic Medicine and Surgery (B.A.M.S)" },
-                { value: "Bachelor of Applied Sciences", label: "Bachelor of Applied Sciences (B.A.S)" },
-                { value: "Bachelor of Audiology and Speech Language Pathology", label: "Bachelor of Audiology and Speech Language Pathology (B.A.S.L.P)" },
-                { value: "Bachelor of Architecture", label: "Bachelor of Architecture (B.Arch)" },
-                { value: "Bachelor of Agriculture", label: "Bachelor of Agriculture (BSc Agriculture)" },
-                { value: "Bachelor of Business Administration", label: "Bachelor of Business Administration (B.B.A)" },
-                { value: "Bachelor of Business Administration Bachelor of Law", label: "Bachelor of Business Administration Bachelor of Law (B.B.A L.L.B)" },
-                { value: "Bachelor of Business Management", label: "Bachelor of Business Management (B.B.M)" },
-                { value: "Bachelor of Business Studies", label: "Bachelor of Business Studies (B.B.S)" },
-                { value: "Bachelor of Commerce", label: "Bachelor of Commerce (B.Com)" },
-                { value: "Bachelor of Computer Applications", label: "Bachelor of Computer Applications (B.C.A)" },
-                { value: "Bachelor of Communication Journalism", label: "Bachelor of Communication Journalism (B.C.J)" },
-                { value: "Bachelor of Computer Science", label: "Bachelor of Computer Science (B.C.S)" },
-                { value: "Bachelor of Divinity", label: "Bachelor of Divinity (B.D)" },
-                { value: "Bachelor of Dental Surgery", label: "Bachelor of Dental Surgery (B.D.S)" },
-                { value: "Bachelor of Basic Development Therapy", label: "Basic Development Therapy (B.D.T)" },
-                { value: "Bachelor of Design", label: "Bachelor of Design (B.Des)" },
-                { value: "Bachelor of Engineering", label: "Bachelor of Engineering (B.E)" },
-                { value: "Bachelor of Education", label: "Bachelor of Education (B.Ed)" },
-                { value: "Bachelor of Electronic Science", label: "Bachelor of Electronic Science (B.E.S)" },
-                { value: "Bachelor of Fine Arts", label: "Bachelor of Fine Arts (B.F.A)"},
-                { value: "Bachelor of Financial Investment and Analysis", label: "Bachelor of Financial Investment and Analysis (B.F.I.A)" },
-                { value: "Bachelor of Fishery Sciences", label: "Bachelor of Fishery Sciences (B.F.S)" },
-                { value: "Bachelor of Fashion Technology", label: "Bachelor of Fashion Technology (B.F.Tech)" },
-                { value: "Bachelor of General Law", label: "Bachelor of General Law (B.G.L)" },
-                { value: "Bachelor of Hotel Management", label: "Bachelor of Hotel Management (B.H.M)" },
-                { value: "Bachelor Hotel Management and Catering Technology", label: "Bachelor Hotel Management and Catering Technology (B.H.M.C.T)" },
-                { value: "Bachelor of Hospitality and Tourism Management", label: "Bachelor of Hospitality and Tourism Management (B.H.T.M)" },
-                { value: "Bachelor of Information Systems Management", label: "Bachelor of Information Systems Management (B.I.S.M)" },
-                { value: "Bachelor of Journalism and Mass Communication", label: "Bachelor of Journalism and Mass Communication (BJMC)" },
-                { value: "Bachelor of Laws", label: "Bachelor of Laws (L.L.B)" },
-                { value: "Bachelor Library Science", label: "Bachelor Library Science (B.L.Sc)" },
-                { value: "Bachelor of Literature", label: "Bachelor of Literature (B.Lit)" },
-                { value: "Bachelor of Medicine Bachelor of Surgery", label: "Bachelor of Medicine Bachelor of Surgery (M.B.B.S)" },
-                { value: "Bachelor of Medical Laboratory Technology", label: "Bachelor of Medical Laboratory Technology (B.M.L.T)" },
-                { value: "Bachelor of Music", label: "Bachelor of Music (B.Mus)" },
-                { value: "Bachelor of Mental Retardation", label: "Bachelor of Mental Retardation (B.M.R)" },
-                { value: "Bachelor of Nursing", label: "Bachelor of Nursing (B.N)" },
-                { value: "Bachelor Of Physical Education", label: "Bachelor Of Physical Education (B.P.Ed)" },
-                { value: "Bachelor of Public Relations", label: "Bachelor of Public Relations (B.P.R)" },
-                { value: "Bachelor in Pharmacy", label: "Bachelor in Pharmacy (B.Pharm)" },
-                { value: "Bachelor of Psychology", label: "Bachelor of Psychology (B.Psych)" },
-                { value: "Bachelor of Physiotherapy", label: "Bachelor of Physiotherapy (B.P.T)" },
-                { value: "Bachelor in Science Education", label: "Bachelor in Science Education (B.S.E)" },
-                { value: "Bachelor of Social Work", label: "Bachelor of Social Work (B.S.W)" },
-                { value: "Bachelor of Science", label: "Bachelor of Science (B.Sc)" },
-                { value: "Bachelor of Science Bachelor of Education", label: "Bachelor of Science Bachelor of Education (B.Sc.B.Ed)" },
-                { value: "Bachelor of Science in Education", label: "Bachelor of Science in Education (B.Sc.Ed)" },
-                { value: "Bachelor of Science in Information Technology", label: "Bachelor of Science in Information Technology (B.Sc. IT) " },
-                { value: "Bachelor of Science in Horticulture", label: "Bachelor of Science in Horticulture (B.Sc Horticulture)" },
-                { value: "Bachelor of Science in Forestry", label: "Bachelor of Science in Forestry (B.Sc Forestry)" },
-                { value: "Bachelor of Tourism Administration", label: "Bachelor of Tourism Administration (B.T.A)" },
-                { value: "Bachelor of Technology", label: "Bachelor of Technology (B.Tech)" },
-                { value: "Bachelor of Unani Medicine & Surgery", label: "Bachelor of Unani Medicine & Surgery (B.U.M.S)" },
-                { value: "Bachelor of Veterinary Science", label: "Bachelor of Veterinary Science (B.V.Sc)" },
-                { value: "Bachelor of Elementary Education", label: "Bachelor of Elementary Education (B.El.Ed)" },
-                { value: "Bachelor of Healthcare Education", label: "Bachelor of Healthcare Education (B.H.Ed)" },
-                { value: "Bachelor of Vocational", label: "Bachelor of Vocational (B.Voc.)" },
-            
-                { value: "Master of Arts", label: "Master of Arts (M.A)" },
-                { value: "Master of Science", label: "Master of Science (M.Sc)" },
-                { value: "Master of Fine Arts", label: "Master of Fine Arts (M.F.A)" },
-                { value: "Master of Business Administration", label: "Master of Business Administration (M.B.A)" },
-                { value: "Master of Education", label: "Master of Education (M.Ed)" },
-                { value: "Master of Engineering", label: "Master of Engineering (M.E)" },
-                { value: "Master of Technology", label: "Master of Technology (M.Tech)" },
-                { value: "Master of Nursing", label: "Master of Nursing (M.N)" },
-                { value: "Master of Social Work", label: "Master of Social Work (M.SW)" },
-                { value: "Master of Architecture", label: "Master of Architecture (M.Arch)" },
-                { value: "Master of Commerce", label: "Master of Commerce (M.Com)" },
-                { value: "Master of Psychology", label: "Master of Psychology (M.Psych)" },
-                { value: "Master of Music", label: "Master of Music (M.Mus)" },
-                { value: "Master of Laws", label: "Master of Laws (L.L.M)" },
-                { value: "Master of Philosophy", label: "Master of Philosophy (M.Phil)" },
-                { value: "Master of Agriculture", label: "Master of Agriculture (MSc Agriculture)" },
-                { value: "Master of Science in Horticulture", label: "Master of Science in Horticulture (M.Sc Horticulture)" },
-                { value: "Master of Science in Forestry", label: "Master of Science in Forestry (M.Sc Forestry)" },
-                { value: "Master of Science in Information Technology", label: "Master of Science in Information Technology (M.Sc. IT)" },
-            
-                { value: "Ph.D", label: "Ph.D (Doctor of Philosophy)" }
-            ]
-        }
-        if(responseJson.userData[0].passport_photo == "" || responseJson.userData[0].signature_docs == ""){
-            this.setState({
-                showButton: true
-            })
-        }
-        this.setState({
-            loaderModal: false
-        })
     })
   }
 
@@ -999,7 +851,7 @@ class Profile extends React.Component {
   }
   deleteOldPassport = async(userID) => {
     const storage = getStorage();
-    const fileUrl = this.state.userData[0].passport_photo;
+    const fileUrl = this.state.userData.passport_photo;
     if(fileUrl != ""){
         const storageRef = ref(storage, fileUrl);
         try {
@@ -1109,7 +961,7 @@ class Profile extends React.Component {
   }
   deleteOldSignature = async(userID) => {
     const storage = getStorage();
-    const fileUrl = this.state.userData[0].signature_docs;
+    const fileUrl = this.state.userData.signature_docs;
     if(fileUrl != ""){
         const storageRef = ref(storage, fileUrl);
         try {
@@ -1192,8 +1044,8 @@ class Profile extends React.Component {
         district,
         pincode} = this.state;
     
-    let userID = this.state.userData[0].id;
-    let token = this.state.userData[0].auth_bearer_token;
+    let userID = this.state.userData.id;
+    let token = this.state.userData.auth_bearer_token;
     let gender = this.state.gender === true ? "MALE" : "FEMALE";
     let isIndigenous = this.state.isIndigenous === true ? "Yes" : "No"
     let hasNameChanged = this.state.hasNameChanged === true ? "Yes" : "No"
@@ -1241,7 +1093,7 @@ class Profile extends React.Component {
     })
   }
   infoUpdateChecker = () => {
-    let userID = this.state.userData[0].id;
+    let userID = this.state.userData.id;
     this.uploadPassport(userID);
   }
 
@@ -1469,9 +1321,9 @@ class Profile extends React.Component {
             APIStatus: "Uploading Document"
         })
         let random = Math.floor(Math.random() * 10000000) + 1;
-        let userID = this.state.userData[0].id;
-        let token = this.state.userData[0].auth_bearer_token;
-        let fullName = this.state.userData[0].full_name;
+        let userID = this.state.userData.id;
+        let token = this.state.userData.auth_bearer_token;
+        let fullName = this.state.userData.full_name;
         const nameWithoutSpaces = fullName.replace(/\s/g, "");
         
         const doc = educationalDoc;
@@ -1554,8 +1406,8 @@ class Profile extends React.Component {
       })
   }
   deleteEducation = async(id, degree) => {
-    let userID = this.state.userData[0].id;
-    let token = this.state.userData[0].auth_bearer_token;
+    let userID = this.state.userData.id;
+    let token = this.state.userData.auth_bearer_token;
     let user = {
         "id": id,
         "user_id": userID
@@ -1715,9 +1567,9 @@ class Profile extends React.Component {
             APIStatus: "Uploading Document"
         })
         let random = Math.floor(Math.random() * 10000000) + 1;
-        let userID = this.state.userData[0].id;
-        let token = this.state.userData[0].auth_bearer_token;
-        let fullName = this.state.userData[0].full_name;
+        let userID = this.state.userData.id;
+        let token = this.state.userData.auth_bearer_token;
+        let fullName = this.state.userData.full_name;
         const nameWithoutSpaces = fullName.replace(/\s/g, "");
     
         const doc = certificateDoc;
@@ -1795,8 +1647,8 @@ class Profile extends React.Component {
       })
   }
   deleteCertificate = async(id) => {
-    let userID = this.state.userData[0].id;
-    let token = this.state.userData[0].auth_bearer_token;
+    let userID = this.state.userData.id;
+    let token = this.state.userData.auth_bearer_token;
     let user = {
         "id": id,
         "user_id": userID
@@ -1890,7 +1742,7 @@ class Profile extends React.Component {
     return (
         <>
             {
-                this.state.userData.length>0 ?
+                this.state.userData != {} ?
                     <div className="settings_body">
                         <Helmet>
                             <html lang="en" />  
@@ -2113,13 +1965,13 @@ class Profile extends React.Component {
                                     </button>
                             }
                             {
-                                this.state.layoutView === "Education" ?
+                                this.state.layoutView === "Notifications" ?
                                     <button className="settings_domains_tab_active">
-                                        <span className="searchBtn_txt">Education</span>
+                                        <span className="searchBtn_txt">Notifications</span>
                                     </button>
                                     :
-                                    <button className="settings_domains_tab_inactive" onClick={() => this.setState({layoutView: "Education"})}>
-                                        <span className="searchBtn_txt">Education</span>
+                                    <button className="settings_domains_tab_inactive" onClick={() => this.setState({layoutView: "Notifications"})}>
+                                        <span className="searchBtn_txt">Notifications</span>
                                     </button>
                             }
                             {
@@ -2135,23 +1987,11 @@ class Profile extends React.Component {
                         </div>
                         <Row>
                             <Col md={4} xs={12} sm={12}>
-                                <div className="forMobile">
-                                    <div className="lottieContainer_5" onClick={() => window.open("https://www.youtube.com/watch?v=xxYFMCqLx4k", "_blank")}>
-                                        <Row>
-                                            <Col md={2} xs={2} sm={2}>
-                                                <Lottie options={defaultOptions_3}  style={animationStyles_3} />
-                                            </Col>
-                                            <Col md={10} xs={10} sm={10} className="lottieDivTxt4">
-                                                <p className="lottieDivTxt4"> Tutorial: How to apply in NSSB Portal</p>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                </div>
                                 <div className="profile_left_firstDiv">
                                     <center>
-                                        <img src={this.state.userData[0].passport_photo} className="settings_profileImage_empty"></img>
-                                        <p className="settings_fullName" style={{ fontSize: fontSize >21 ? `${fontSize}px` : '20px' }}>{this.state.userData[0].full_name}</p>
-                                        <p className="emailVerifyHeader_register" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>{this.state.email}</p>
+                                        <img src={this.state.userData.passport_photo} className="settings_profileImage_empty"></img>
+                                        <p className="settings_fullName" style={{ fontSize: fontSize >21 ? `${fontSize}px` : '20px' }}>{this.state.userData.m_name == "" ? this.state.userData.f_name + " " + this.state.userData.l_name : this.state.userData.f_name + " " +  this.state.userData.m_name + " " + this.state.userData.l_name}</p>
+                                        <p className="emailVerifyHeader_register" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>{this.state.userData.email}</p>
                                     </center>
                                     <hr className="profile_hr"/>
                                     <div>
@@ -2161,64 +2001,18 @@ class Profile extends React.Component {
                                         <p className="profile_humanityTxt_black" style={{ fontSize: fontSize >16 ? `${fontSize}px` : '15px' }}><img src={email} className="profile_humanity"/>Email Verified</p>
                                         <BsCheckCircleFill size={fontSize > 21 ? fontSize : 20} className="BsCheckCircleFill-icon2"/>
                                         <br clear="all"/>
-                                        <p className="profile_humanityTxt_black" style={{ fontSize: fontSize >16 ? `${fontSize}px` : '15px' }}><img src={education} className="profile_humanity"/>Educational Details</p>
-                                        {
-                                            this.state.doesEducationExists ?
-                                            <BsCheckCircleFill size={fontSize > 21 ? fontSize : 20} className="BsCheckCircleFill-icon2"/>
-                                            :
-                                            <RxCross1 size={fontSize > 21 ? fontSize : 20} className="RxCross1-icon2"/>
-                                        }
-                                        <br clear="all"/>
-                                        {
-                                            this.state.doesEducationExists ?
-                                                <div className="OTR_SuccessfulMessage" onClick={() => this.props.history.push("/examination")}>
-                                                    <p className="OTR_SuccessfulMessageTxt" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Your OTR registration is completed. You may now go to the <span className="OTR_SuccessfulMessageSpan">Examination</span> page to check and apply upcoming exams.</p>
-                                                </div>
-                                            :
-                                                <div className="OTR_SuccessfulMessageWarn">
-                                                    <p className="OTR_SuccessfulMessageTxt" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Your educational documents of Class 10 and onwards is mandatory. Kindly upload them on the education tab.</p>
-                                                </div>
-                                        }
+                                        <div className="OTR_SuccessfulMessage">
+                                            <p className="OTR_SuccessfulMessageTxt" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Your loan application is currently under review and documents are getting verified. Kindly wait till further notification.</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="profile_left_firstDiv">
-                                    <p className="profile_Signature_black" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Signature</p>
-                                    <div className="emptySignature_Profile">
-                                        <center>
-                                            <img src={this.state.userData[0].signature_docs} className="signature_imgProfile" alt="Signature Image" />
-                                        </center>
+                                    <p className="profile_Signature_black" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Loan application</p>
+                                    <p className="profile_Signature_black_subText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>Track your loan application and get notified of any status updates.</p>
+                                    <div className="profile_skyblueBtn" onClick={() => this.setState({certificateEditMode: true})}>
+                                        <p className="profile_skyblueBtn_txt">Track Loan Application</p>    
                                     </div>
                                 </div>
-                                {
-                                    this.state.userData[0].has_name_changed === "Yes" ?
-                                    <>
-                                    {
-                                        this.state.userData[0].affidavit_docs == ""
-                                        ?
-                                        <></>
-                                        :
-                                        <div className="profile_left_firstDiv">
-                                            <p className="profile_Signature_black" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Affidavit</p>
-                                            <div className="viewDocumentButton" onClick={() =>  window.open(this.state.userData[0].affidavit_docs, '_blank')}>
-                                                <p className="viewDocumentButton_Txt">View Document</p>
-                                            </div>
-                                        </div>
-                                    }
-                                    </>
-                                    :
-                                    <></>
-                                }
-                                {
-                                    this.state.userData[0].is_pwd === "Yes" && this.state.userData[0].pwd_docs != ""?
-                                    <div className="profile_left_firstDiv">
-                                        <p className="profile_Signature_black" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>PwD Certificate</p>
-                                        <div className="viewDocumentButton" onClick={() =>  window.open(this.state.userData[0].pwd_docs, '_blank')}>
-                                            <p className="viewDocumentButton_Txt">View Document</p>
-                                        </div>
-                                    </div>
-                                    :
-                                    <></>
-                                }
                             </Col>
                             <Col md={8} xs={12} sm={12}>
                                 <>
@@ -2226,7 +2020,7 @@ class Profile extends React.Component {
                                         this.state.layoutView === "Profile" ?
                                             <div className="profile_left_firstDiv">
                                                 <p className="settings_TabsTittle" style={{ fontSize: fontSize >21 ? `${fontSize}px` : '20px' }}>Basic Details</p>
-                                                <p className="profile_bio" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Make sure your entered data matches with AADHAR, PAN or Driving License</p>
+                                                <p className="profile_bio" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>Make sure your entered data matches with AADHAR, PAN and other financial documents</p>
                                                 {
                                                     this.state.profileEditMode ?
                                                         <div>
@@ -2789,111 +2583,90 @@ class Profile extends React.Component {
                                                         </div>
                                                     :
                                                         <div>
-                                                            <Row>
-                                                                <Col md={6}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Full Name</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.fullName}</p>
+                                                            <Row className="profileInforMargins">
+                                                                <Col md={4} xs={12} sm={12}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Full Name</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.m_name == "" ? this.state.userData.f_name + " " + this.state.userData.l_name : this.state.userData.f_name + " " +  this.state.userData.m_name + " " + this.state.userData.l_name}</p>
                                                                 </Col>
-                                                                <Col md={6}>
-                                                                {
-                                                                    hasNameChanged ?
-                                                                    <>
-                                                                        <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Legal Name</p>
-                                                                        <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.legalName}</p>
-                                                                    </>
-                                                                    :
-                                                                    <>
-                                                                        <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Did you change your name?</p>
-                                                                        <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>No</p>
-                                                                    </>
-                                                                }
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Gender</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.gender}</p>
+                                                                </Col>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Date of Birth</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.date_of_birth}</p>
                                                                 </Col>
                                                             </Row>
                                                             <Row className="profileInforMargins">
-                                                                <Col md={6} xs={6} sm={6}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Gender</p>
-                                                                {
-                                                                    this.state.gender ?
-                                                                        <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>Male</p>
-                                                                    :
-                                                                        <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>Female</p>
-                                                                }
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Phone Number</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.phone_no}</p>
                                                                 </Col>
-                                                                <Col md={6} xs={6} sm={6}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Date of Birth</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.dateofbirth}</p>
+                                                                <Col md={4} xs={12} sm={12}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Father's Name</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.father_name}</p>
                                                                 </Col>
-                                                            </Row>
-                                                            <Row className="profileInforMargins">
-                                                                <Col md={6} xs={12} sm={12}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Father's Name</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.fatherName}</p>
-                                                                </Col>
-                                                                <Col md={6} xs={12} sm={12}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Mother's Name</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.motherName}</p>
+                                                                <Col md={4} xs={12} sm={12}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Mother's Name</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.mother_name}</p>
                                                                 </Col>
                                                             </Row>
-                                                            {
-                                                                isIndigenous ?
-                                                                <Row className="profileInforMargins">
-                                                                    <Col md={6} xs={6} sm={6}>
-                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Tribe</p>
-                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.tribe}</p>
-                                                                    </Col>
-                                                                    <Col md={6} xs={6} sm={6}>
-                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Category</p>
-                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.category}</p>
-                                                                    </Col>
-                                                                </Row>
-                                                                :
-                                                                <></>
-                                                            }
                                                             <Row >
-                                                                <Col md={6}>
+                                                                <Col md={12} xs={6} sm={6}>
                                                                     <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>House No. & Street</p>
-                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.streetName}</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.street_addr}</p>
                                                                 </Col>
-                                                                <Col md={6}>
+                                                                <Col md={4} xs={6} sm={6}>
                                                                     <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Town/Village</p>
-                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.town}</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.city}</p>
+                                                                </Col>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>District</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.district}</p>
+                                                                </Col>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>PIN Code</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.zip_code}</p>
+                                                                </Col>
+                                                            </Row>
+                                                            <hr className="dashed-hr"/>
+                                                            <Row className="profileInforMargins">
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employment Status</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.emp_status}</p>
+                                                                </Col>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Employer's Name</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.employer_name}</p>
+                                                                </Col>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Monthly Income</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>₹{this.state.userData.income}</p>
                                                                 </Col>
                                                             </Row>
                                                             <Row className="profileInforMargins">
-                                                                <Col md={6} xs={6} sm={6}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>District</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.district}</p>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Amount</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>₹{this.state.userData.loan_amount}</p>
                                                                 </Col>
-                                                                <Col md={6} xs={6} sm={6}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>PIN Code</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.pincode}</p>
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Application ID</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.application_id}</p>
                                                                 </Col>
-                                                            </Row>
-                                                            <Row className="profileInforMargins">
-                                                                <Col md={6} xs={12} sm={12}>
-                                                                <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Do you belong to PwD?</p>
-                                                                <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.isPWD ? "Yes" : "No"}</p>
-                                                                </Col>
-                                                                <Col md={6} xs={12} sm={12}>
-                                                                {
-                                                                    this.state.isPWD ?
-                                                                    <>
-                                                                        <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Category of PwD</p>
-                                                                        <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.pwdCategory}</p>
-                                                                    </>
-                                                                    :
-                                                                    <></>
-                                                                }
+                                                                <Col md={4} xs={6} sm={6}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Application Status</p>
+                                                                    <p className="confirmationText" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '15px' }}>{this.state.userData.loan_status}</p>
                                                                 </Col>
                                                             </Row>
-                                                            {
-                                                                this.state.showButton ?
-                                                                <div className="login_button" onClick={()=>this.setState({profileEditMode: true})}>
-                                                                    <p className="login_signup_ques_text_white">Edit Information</p>
-                                                                </div>
-                                                                :
-                                                                <></>
-                                                            }
+                                                            <Row>
+                                                                <Col md={12} xs={12} sm={12}>
+                                                                    <p className="input_header_txt" style={{ fontSize: fontSize >17.3 ? `${fontSize}px` : '16.5px' }}>Loan Purpose</p>
+                                                                    <p className="loanPurposeText" style={{ fontSize: fontSize >18 ? `${fontSize}px` : '16px' }}>{this.state.userData.loan_purpose}</p>
+                                                                </Col>
+                                                            </Row>
+                                                            <div className="login_button">
+                                                                <p className="login_signup_ques_text_white">Edit Information</p>
+                                                            </div>
                                                         </div>
                                                 }
                                             </div>
