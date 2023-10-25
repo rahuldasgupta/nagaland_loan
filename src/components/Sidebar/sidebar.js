@@ -68,7 +68,7 @@ class SideBar extends React.Component {
     this.toggleButton()
   }
   navigateFAQ = () => {
-    this.props.history.push("/faq");
+    this.props.history.push("/");
     this.toggleButton()
   }
   clearAsyncStorage = async() => {
@@ -99,12 +99,6 @@ class SideBar extends React.Component {
                   <>
                     <MenuItem icon={<FiUser size={26} color={"#fff"} style={{marginRight: 7}} />}>
                       <span  onClick={this.navigateProfile} className="sidebar-item-txt">Profile</span>
-                    </MenuItem>
-                    <MenuItem icon={<PiCertificate size={30} color={"#fff"} style={{marginRight: 7}} />}>
-                      <span  onClick={this.navigateAdmitCard} className="sidebar-item-txt">Admit Card</span>
-                    </MenuItem>
-                    <MenuItem icon={<BsCreditCard size={26} color={"#fff"} style={{marginRight: 7}} />}>
-                      <span  onClick={this.navigatePaymentHistory} className="sidebar-item-txt">Payment History</span>
                     </MenuItem>
                     <center>
                       <hr className="sidebar_hr_white"/>

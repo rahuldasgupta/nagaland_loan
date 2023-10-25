@@ -188,7 +188,7 @@ class Home extends React.Component {
         <div className="about_div_1">
           <div className="dashbaord_div_1_inner">
             <h1 className="dashbaord_div_1_inner_txt" >Nagaland Loan Tracking Portal</h1>
-            <h2 className="home_box_1_para_white" style={{ fontSize: fontSize >=17 ? `${fontSize}px` : '17px' }}>Apply & track your loan application progress with ease. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sapien quam, aliquam non augue id, tempus convallis urna. In hac habitasse platea dictumst. Duis sed sapien cursus, hendrerit turpis nec, accumsan nisl.</h2>
+            <h2 className="home_box_1_para_white" style={{ fontSize: fontSize >=17 ? `${fontSize}px` : '17px' }}>Apply & track your loan application progress with ease. Once applied in the portal, the team from IDAN, Credit Outreach Facilitation Unit will co-ordinate with you for necessary handholding.</h2>
             <button className="requestQuote">
               <a className="href_reports" href="#tabs">Know More</a>
             </button>
@@ -240,7 +240,7 @@ class Home extends React.Component {
                       <div className="card-body-2">
                         <img src={downloads}/>
                         <h2>Forms & Downloads</h2>
-                        <p className="careCards_txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sapien quam, aliquam non augue id, tempus convallis urna.</p>
+                        <p className="careCards_txt">Once you applied on the portal, you will be able to download reciept and other necessary forms (if required)</p>
                       </div>
                     </div>
                   </div>
@@ -251,7 +251,7 @@ class Home extends React.Component {
               <Col md={8} xs={12} sm={12}>
                 <p className="home_box_1_title" >Nagaland Loan Tracking Portal</p>
                 <p className="home_box_1_para" style={{ fontSize: fontSize >=17 ? `${fontSize}px` : '17px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sapien quam, aliquam non augue id, tempus convallis urna. In hac habitasse platea dictumst. Duis sed sapien cursus, hendrerit turpis nec, accumsan nisl. Sed vitae tellus eget leo pretium scelerisque. Nullam finibus varius turpis, ut placerat sapien consectetur ac. Curabitur vulputate mollis elit, a vulputate nisi ultrices eu.<br/><br/>Ut commodo a quam vulputate mollis. Fusce pulvinar tortor eget sagittis ultrices. Curabitur varius est sit amet lacus feugiat, ut aliquam purus mollis. Praesent semper dui ac augue laoreet vestibulum. Vestibulum egestas justo nec dignissim sagittis. Nam mattis quam nec nisi sollicitudin porttitor. Nullam ut bibendum risus. Pellentesque augue odio, tincidunt nec neque ut, elementum placerat augue. Pellentesque id elit at tellus interdum condimentum. In quis laoreet nisl. Cras et est nec erat laoreet lacinia quis a neque. Nullam mattis orci rutrum sem placerat rhoncus.
+                The Nagaland Loan Applying & Tracking Portal is a state-of-the-art digital platform designed to streamline the loan application process and enhance transparency for borrowers in the state of Nagaland, India. This innovative online portal serves as a one-stop solution for individuals and businesses seeking financial assistance by providing a user-friendly interface to apply for loans conveniently from the comfort of their homes or offices.<br/><br/>With the Nagaland Loan Applying & Tracking Portal, applicants can access a range of loan options offered by various financial institutions and government schemes. The platform simplifies the application process by guiding users through the necessary documentation and eligibility criteria. By leveraging digital technology, the portal ensures that the application process is efficient, reducing the time and effort traditionally associated with loan applications.
                 </p>
                 <button className="requestQuote">
                   Know more

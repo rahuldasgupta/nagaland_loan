@@ -311,12 +311,12 @@ span.lottieDivTxt{
         margin-bottom: 6%;
     }
     .profile_skyblueBtn{
-        height: 50x;
         background-color: #EAF2FF;
         width: 100%;
         border-radius: 6px;
         cursor: pointer;
-        padding-top: 11.5px;
+        padding-top: 13.5px;
+        padding-bottom: 1px;
     }
     p.profile_bio{
         color: #676767;
