@@ -7,16 +7,8 @@ import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import ForgotPassword from "./pages/auth/forgotPassword/ForgotPassword";
 import Profile from "./pages/profile/Profile";
-import Examination from "./pages/examination/Examination";
-import ViewExamDetails from "./pages/examination/ViewExamDetails";
-import Confirmation from "./pages/examination/Confirmation";
-import orderStatus from "./pages/order/orderStatus";
-import PaymentHistory from "./pages/order/PaymentHistory";
-import ChangePosts from "./pages/examination/ChangePosts";
-import AdmitCard from "./pages/examination/admit/AdmitCard";
+import about from "./pages/about/about";
 
-import privacy_policy from "./pages/policies/privacyPolicy";
-import termsUse from "./pages/policies/termsUse";
 //import cancellation_policy from "./pages/policies/cancellationPolicy";
 //import feesPolicy from "./pages/policies/feesPolicy";
 import faq from "./pages/faq/faq";
@@ -86,25 +78,7 @@ class App extends Component {
             path="/profile"
             render={(props) => <Profile {...props} fontSize={fontSize} />}
           />
-          {
-            /*
-            <Route
-              exact
-              path="/view-examination"
-              render={(props) => <ViewExamDetails {...props} fontSize={fontSize} />}
-            />
-            <Route
-              exact
-              path="/confirmation"
-              render={(props) => <Confirmation {...props} fontSize={fontSize} />}
-            />
-            <Route
-              exact
-              path="/change-posts"
-              render={(props) => <ChangePosts {...props} fontSize={fontSize} />}
-            />
-            */
-          }
+          <Route path="/about" component={about} />
         </Switch>
       </Router>
     );

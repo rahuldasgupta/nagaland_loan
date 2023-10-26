@@ -147,7 +147,7 @@ span.lottieDivTxt{
         object-fit: contain;
     }
     button.settings_domains_tab_active{
-        background-color: #0783de;
+        background-color: #1a2a36;
         border: none;
         color: white;
         height: 47px;
@@ -181,7 +181,7 @@ span.lottieDivTxt{
         font-weight: 500;
     }
     button.settings_domains_tab_active_first{
-        background-color: #0783de;
+        background-color: #1a2a36;
         border: none;
         color: white;
         height: 47px;
@@ -354,7 +354,7 @@ span.lottieDivTxt{
         font-weight: 500;
     }
     button.settings_domains_tab_active_first{
-        background-color: #0783de;
+        background-color: #1a2a36;
         border: none;
         color: white;
         height: 42px;
@@ -388,7 +388,7 @@ span.lottieDivTxt{
         font-weight: 500;
     }
     button.settings_domains_tab_active{
-        background-color: #0783de;
+        background-color: #1a2a36;
         border: none;
         color: white;
         height: 42px;

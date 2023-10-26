@@ -78,7 +78,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 55px;
-        border: 1.6px solid #0783de;
+        border: 1.6px solid #1a2a36;
         border-radius: 8px;
         margin-bottom: 5%;
         cursor: pointer;
@@ -94,7 +94,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 50px;
-        border: 1.6px solid #0783de;
+        border: 1.6px solid #1a2a36;
         border-radius: 8px;
         cursor: pointer;
         align-self: center !important;
@@ -123,7 +123,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 58px;
-        background-color: #0783de;
+        background-color: #1a2a36;
         border-radius: 8px;
         margin-top: 30px;
         cursor: pointer;
@@ -137,7 +137,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 58px;
-        background-color: #0783de;
+        background-color: #1a2a36;
         border-radius: 8px;
         margin-top: 20px;
         cursor: pointer;
@@ -233,7 +233,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        border: 1px solid #0783de;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         margin-top: 30px;
         cursor: pointer;
@@ -247,8 +247,8 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        background-color: #0783de;
-        border: 1px solid #0783de;
+        background-color: #1a2a36;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         margin-top: 10px;
         cursor: pointer;
@@ -262,7 +262,7 @@ html{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        border: 1px solid #0783de;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         cursor: pointer;
         align-self: center !important;
@@ -604,7 +604,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 50px;
-        border: 1.6px solid #0783de;
+        border: 1.6px solid #1a2a36;
         border-radius: 8px;
         margin-bottom: 5%;
         cursor: pointer;
@@ -616,7 +616,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 45px;
-        border: 1.6px solid #0783de;
+        border: 1.6px solid #1a2a36;
         border-radius: 8px;
         margin-top: 4%;
         margin-bottom: 3%;
@@ -643,7 +643,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 58px;
-        background-color: #0783de;
+        background-color: #1a2a36;
         border-radius: 8px;
         margin-top: 35px;
         cursor: pointer;
@@ -657,7 +657,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 58px;
-        background-color: #0783de;
+        background-color: #1a2a36;
         border-radius: 8px;
         margin-top: 15px;
         cursor: pointer;
@@ -686,7 +686,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        border: 1px solid #0783de;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         margin-top: 35px;
         cursor: pointer;
@@ -700,8 +700,8 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        background-color: #0783de;
-        border: 1px solid #0783de;
+        background-color: #1a2a36;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         margin-top: 10px;
         cursor: pointer;
@@ -715,7 +715,7 @@ span.OTR_SuccessfulMessageSpan{
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        border: 1px solid #0783de;
+        border: 1px solid #1a2a36;
         border-radius: 8px;
         cursor: pointer;
         align-self: center !important;
@@ -779,7 +779,7 @@ p.modal_header_text{
     margin-bottom: 3px;
 }
 .calender_div:hover{
-    border: 1.6px solid #0783de;
+    border: 1.6px solid #1a2a36;
 }
 p.login_subheader_text{
     font-family: 'Rubik', sans-serif;
@@ -827,14 +827,14 @@ p.login_signup_ques_text{
     line-height: 140%;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #0783de;
+    color: #1a2a36;
 }
 p.viewDocumentButton_Txt{
     font-weight: 500;
     font-size: 16px;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #0783de;
+    color: #1a2a36;
 }
 p.deleteDocumentButton_Txt{
     font-weight: 500;
@@ -857,7 +857,7 @@ p.login_signup_ques_text_blue{
     line-height: 140%;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #0783de;
+    color: #1a2a36;
 }
 input.emailInput:focus {
     border: 1.6px solid #0783de;

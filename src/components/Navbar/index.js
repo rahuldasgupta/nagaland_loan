@@ -169,7 +169,7 @@ class Navbar extends React.Component {
             <NavLink to="/" style={{marginLeft:"3%",marginRight:"3%"}} onMouseOver={() => this.setState({dropdownView: false})}>
               <span className="contact-nav-text">Home</span>
             </NavLink>
-            <NavLink to="/" style={{marginRight:"3%"}} onMouseOver={() => this.setState({dropdownView: false})}>
+            <NavLink to="/about" style={{marginRight:"3%"}} onMouseOver={() => this.setState({dropdownView: false})}>
               <span className="contact-nav-text">About</span>
             </NavLink>
             <NavLink to="/faq" style={{marginRight:"3%"}} onMouseOver={() => this.setState({dropdownView: false})}>

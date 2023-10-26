@@ -186,13 +186,6 @@ class Home extends React.Component {
           <link rel="canonical" href="https://nssbrecruitment.in/" />
         </Helmet>
         <div className="about_div_1">
-          <div className="dashbaord_div_1_inner">
-            <h1 className="dashbaord_div_1_inner_txt" >Nagaland Loan Tracking Portal</h1>
-            <h2 className="home_box_1_para_white" style={{ fontSize: fontSize >=17 ? `${fontSize}px` : '17px' }}>Apply & track your loan application progress with ease. Once applied in the portal, the team from IDAN, Credit Outreach Facilitation Unit will co-ordinate with you for necessary handholding.</h2>
-            <button className="requestQuote">
-              <a className="href_reports" href="#tabs">Know More</a>
-            </button>
-          </div>
         </div>
           <div className="home-content-body">
             <Row>

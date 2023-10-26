@@ -40,11 +40,7 @@ class SideBar extends React.Component {
     this.toggleButton()
   }
   navigateAbout = () => {
-    window.open("https://nssb.nagaland.gov.in/about-nssb/", "_blank");
-    this.toggleButton()
-  }
-  navigateExamination = () => {
-    this.props.history.push("/");
+    this.props.history.push("/about");
     this.toggleButton()
   }
   navigateLogin = () => {
@@ -82,14 +78,14 @@ class SideBar extends React.Component {
           this.state.sideBar?
             <ProSidebar>
               <center>
-                <img src={nssb} style={{ height: 140, marginTop:"17%", marginBottom: "10%" }} />
+                <img src={nssb} style={{ height: 140, width:140, marginTop:"17%", marginBottom: "10%", paddingTop: 10, backgroundColor:"#fff", borderRadius: 100 }} />
               </center>
               <Menu iconShape="square" className="sidebar-icons-margin">
                 <MenuItem icon={<IoHomeOutline size={26} color={"#fff"} style={{marginRight: 7}}/>}>
                   <span onClick={this.navigateHome} className="sidebar-item-txt">Home</span>
                 </MenuItem>
                 <MenuItem icon={<RxDashboard size={25} color="white" style={{marginRight: 7}}/>}>
-                  <span onClick={this.navigateExamination} className="sidebar-item-txt">About</span>
+                  <span onClick={this.navigateAbout} className="sidebar-item-txt">About</span>
                 </MenuItem>
                 <MenuItem icon={<BsQuestionCircle size={25} color="white" style={{marginRight: 7}}/>}>
                   <span onClick={this.navigateFAQ} className="sidebar-item-txt">FAQs</span>

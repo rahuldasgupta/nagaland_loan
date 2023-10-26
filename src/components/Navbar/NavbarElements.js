@@ -5,7 +5,7 @@ import "./Navbar.css";
 
 
 export const Nav = styled.nav`
-background-color: #0783de;
+background-color: #1a2a36;
 font-size: 17.5px;
 display: flex;
 justify-content: flex-start;
