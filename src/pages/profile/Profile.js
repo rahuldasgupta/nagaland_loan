@@ -342,7 +342,7 @@ class Profile extends React.Component {
     let user = {
         "user_id": userID
     }
-    await fetch("https://csrnagaland.in/loanidan/api/get_applicant_details.php", {
+    await fetch("https://nagalandloan.in/admin/api/get_applicant_details.php", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -1748,7 +1748,7 @@ class Profile extends React.Component {
                             <html lang="en" />  
                             <meta charSet="utf-8" />
                             <title>Nagaland Loan Tracking Portal | Profile</title>
-                            <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
+                            <meta name="description" content="One-Time-Registration Portal of Credit Outreach Facilitation Unit (COFU) : Nagaland" />
                             <link rel="canonical" href="https://nssbrecruitment.in/" />
                         </Helmet>
                         <Modal

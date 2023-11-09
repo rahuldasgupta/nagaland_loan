@@ -470,7 +470,7 @@ class ChangePosts extends React.Component {
             <html lang="en" />  
             <meta charSet="utf-8" />
             <title>Nagaland Loan Tracking Portal | Change Posts</title>
-            <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
+            <meta name="description" content="One-Time-Registration Portal of Credit Outreach Facilitation Unit (COFU) : Nagaland" />
             <link rel="canonical" href="https://nssbrecruitment.in/" />
         </Helmet>
         <Modal

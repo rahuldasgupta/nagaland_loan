@@ -89,7 +89,7 @@ class Footer extends React.Component {
                     <div  className="items-cls">
                         <p className="footer_col_title">Contact</p>
                         <p className="info">
-                            Nagaland Loan Tracking Department,<br/>
+                            Credit Outreach Facilitation Unit (COFU),<br/>
                             New Capital Complex, Secretariat<br/>
                             Kohima, Nagaland - 797004, IN<br/><br/>
                             Email - helpdesk@nagalandloan.in<br/>

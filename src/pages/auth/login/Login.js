@@ -85,7 +85,7 @@ class Login extends React.Component {
         "email": emailTrimmed,
         "password": password
       };
-      await fetch("https://csrnagaland.in/loanidan/api/login.php", {
+      await fetch("https://nagalandloan.in/admin/api/login.php", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -183,7 +183,7 @@ class Login extends React.Component {
                 <html lang="en" />  
                 <meta charSet="utf-8" />
                 <title>Nagaland Loan Tracking Portal | Login</title>
-                <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
+                <meta name="description" content="One-Time-Registration Portal of Credit Outreach Facilitation Unit (COFU) : Nagaland" />
                 <link rel="canonical" href="https://nssbrecruitment.in/" />
             </Helmet>
               <div className="login_containerBox_inner">

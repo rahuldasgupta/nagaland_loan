@@ -26,6 +26,21 @@ html{
 }
 
 @media only screen and (max-width: 599px) {
+    .ViewExams_appliedBtn{
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        box-sizing: border-box;
+        height: 50px;
+        border-radius: 8px;
+        cursor: pointer;
+        align-self: center !important;
+        align-items: center !important;
+        padding-top: 9.6px;
+        padding-left: 7%;
+        padding-right: 7%;
+        margin-top: 4%;
+    }
     #marginInputs {
         margin-top: 1px;
     }
@@ -63,6 +78,14 @@ html{
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
         font-size: 27px;
+        color: #252525;
+        margin-bottom: 3px;
+    }
+    p.login_header_text_margin{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 27px;
+        margin-top: 15%;
         color: #252525;
         margin-bottom: 3px;
     }
@@ -440,6 +463,15 @@ span.OTR_SuccessfulMessageSpan{
     object-fit: cover !important;
 }
 @media only screen and (min-width: 600px) {
+    .ViewExams_appliedBtn{
+        height: 45px;
+        border: 1.6px solid #50c878;
+        background-color: #50c878;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        padding-top: 8px;
+    }
     p.login_subheader_text_bankInfo{
         font-family: 'Rubik', sans-serif;
         color: #818181;
@@ -586,6 +618,14 @@ span.OTR_SuccessfulMessageSpan{
         font-weight: 500;
         font-size: 27px;
         color: #252525;
+        margin-bottom: 3px;
+    }
+    p.login_header_text_margin{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 27px;
+        color: #252525;
+        margin-top: 7%;
         margin-bottom: 3px;
     }
     .container-box_register{

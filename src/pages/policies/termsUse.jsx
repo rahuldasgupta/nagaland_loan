@@ -20,7 +20,7 @@ class termsUse extends React.Component {
       <div className="termscontainer">
         <div>
           <p className="terms-Title">Terms of Use</p>
-          <p className="policy-Txt">Welcome to the website of the Nagaland Staff Selection Board (NSSB). By accessing or using our website and participating in any activities related to the annual recruitment exams for government jobs, you agree to abide by the following terms and conditions:</p>
+          <p className="policy-Txt">Welcome to the website of the Credit Outreach Facilitation Unit (COFU) : Nagaland. By accessing or using our website and participating in any activities related to the annual recruitment exams for government jobs, you agree to abide by the following terms and conditions:</p>
           
           <p className="policy-SubTitle">1. Eligibility: <span className="policy-spanSubTitle">To participate in the annual recruitment exams conducted by NSSB, you must meet the eligibility criteria specified for each job position. It is your responsibility to ensure that you meet the required qualifications and fulfill any other conditions mentioned in the official recruitment notification.</span></p>
           <p className="policy-SubTitle">2. Registration: <span className="policy-spanSubTitle">To apply for government job vacancies through NSSB Portal, you must complete the One-Time-Registration (OTR) process on our website. You agree to provide accurate, current, and complete information during registration. Any false or misleading information may result in disqualification from the recruitment process.</span></p>

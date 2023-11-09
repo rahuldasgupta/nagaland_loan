@@ -9,7 +9,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { BsCircle, BsCheckCircleFill, BsInfoCircle } from "react-icons/bs";
 import Calendar from 'react-calendar';
 import { IoClose, IoChevronBack, IoChevronForward } from "react-icons/io5";
-import { AiOutlineUpload } from "react-icons/ai";
 import { RxDoubleArrowLeft, RxDoubleArrowRight, } from "react-icons/rx";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
@@ -39,7 +38,7 @@ const steps_Mobile = [
 ];
 const steps_PC = [
   'Basic Information',
-  'Verify Email',
+  'Verification',
   'Add Address',
   "Loan Information",
   'Confirmation'
@@ -133,7 +132,7 @@ class Register extends React.Component {
     super(props);
     this.state = {
       layoutView: "Basics",
-      //layoutView: "Confirmation",
+      //layoutView: "Verification",
       loaderModal: false,
       APIStatus: "Creating Account",
 
@@ -157,11 +156,17 @@ class Register extends React.Component {
       martialStatus: null,
       
       countDown: 30,
+      countDown_SMS: 30,
       duplicateEmailModal: false,
       duplicatePhoneModal: false,
       isCountDownStarted: false,
       enteredOTP: "",
       responseOTP: "",
+      isSMSCountDownStarted: false,
+      enteredSMS_OTP: "",
+      responseSMS_OTP: "",
+      isEmailVerified: false,
+      isPhoneVerified: false,
 
       streetName: "",
       town: "",
@@ -211,7 +216,7 @@ class Register extends React.Component {
     }
   }
   getLoanType = async() => {
-    await fetch("https://csrnagaland.in/loanidan/api/getLoan_type.php", {
+    await fetch("https://nagalandloan.in/admin/api/getLoan_type.php", {
       method: "GET",
       headers: {
         Accept: "application/json,  */*",
@@ -465,7 +470,7 @@ class Register extends React.Component {
     let user = {
       "phone_no": phoneTrimmed,
     };
-    await fetch("https://csrnagaland.in/loanidan/api/validate_phone_no.php", {
+    await fetch("https://nagalandloan.in/admin/api/validate_phone_no.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -489,7 +494,7 @@ class Register extends React.Component {
     })
   }
 
-  //VERIFY EMAIL
+  //VERIFICATION
   sendMail = async() => {
     this.setState({
       loaderModal: true,
@@ -500,7 +505,41 @@ class Register extends React.Component {
     let user = {
       "email": emailTrimmed,
     };
-    await fetch("https://csrnagaland.in/loanidan/api/email_otp.php", {
+    await fetch("https://nagalandloan.in/admin/api/email_otp.php", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        Accept: "application/json,  */*",
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.Status === "False! Email ID already exists"){
+        this.setState({
+          duplicateEmailModal: true,
+          loaderModal: false,
+        })
+      }
+      else{
+        this.setState({
+          responseOTP: responseJson.OTP
+        })
+        this.sendSMS()
+      }
+    })
+  }
+  sendSMS = async() => {
+    this.setState({
+      loaderModal: true,
+      APIStatus: "Sending Phone OTP"
+    })
+    let phone = this.state.phone;
+    let phoneTrimmed = phone.trim();
+    let user = {
+      "phone": phoneTrimmed,
+    };
+    await fetch("https://nagalandloan.in/admin/api/phone_otp.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -513,17 +552,18 @@ class Register extends React.Component {
       this.setState({
         loaderModal: false
       })
-      if(responseJson.Status === "False! Email ID already exists"){
+      if(responseJson.Status === "False! Phone No already exists"){
         this.setState({
-          duplicateEmailModal: true
+          duplicatePhoneModal: true,
+          loaderModal: false,
         })
       }
       else{
         this.setState({
-          responseOTP: responseJson.OTP
+          responseSMS_OTP: responseJson.OTP
         })
         this.setState({
-          layoutView: "Verify Email"
+          layoutView: "Verification"
         })
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
       }
@@ -534,6 +574,11 @@ class Register extends React.Component {
     errors["incorrectOTP"] = null
     this.setState({ enteredOTP: otp, errors: errors });
   }
+  handlePhoneOTPChange = (otp) => {
+    let errors = this.state.errors;
+    errors["incorrect_Phone_OTP"] = null
+    this.setState({ enteredSMS_OTP: otp, errors: errors });
+  }
   verifyOTP = () => {
     let errors = this.state.errors;
     let responseOTP = this.state.responseOTP;
@@ -543,12 +588,31 @@ class Register extends React.Component {
       errors["incorrectOTP"] = null
       this.setState({
         errors: errors,
-        layoutView: "Addresses",
+        //layoutView: "Addresses",
+        isEmailVerified: true,
         enteredOTP: ""
       })
     }
     else{
       errors["incorrectOTP"] = "OTP entered is incorrect";
+      this.setState({ errors: errors});
+    }
+  }
+  verifyPhoneOTP = () => {
+    let errors = this.state.errors;
+    let responseOTP = this.state.responseSMS_OTP;
+    let enteredOTP = this.state.enteredSMS_OTP;
+
+    if(enteredOTP == responseOTP){
+      errors["incorrect_Phone_OTP"] = null
+      this.setState({
+        errors: errors,
+        isPhoneVerified: true,
+        enteredOTP: ""
+      })
+    }
+    else{
+      errors["incorrect_Phone_OTP"] = "OTP entered is incorrect";
       this.setState({ errors: errors});
     }
   }
@@ -572,7 +636,7 @@ class Register extends React.Component {
     let user = {
       "email": emailTrimmed,
     };
-    await fetch("https://csrnagaland.in/loanidan/api/email_otp.php", {
+    await fetch("https://nagalandloan.in/admin/api/email_otp.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -594,6 +658,48 @@ class Register extends React.Component {
       }
     })
   }
+  resendPhoneOTP = async() => {
+    toast.success("OTP Sent to " + this.state.phone, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+    this.setState({
+      isSMSCountDownStarted: true,
+    })
+    this.countdownPhoneTimer()
+
+    let phone = this.state.phone;
+    let phoneTrimmed = phone.trim();
+    let user = {
+      "phone": phoneTrimmed,
+    };
+    await fetch("https://nagalandloan.in/admin/api/phone_otp.php", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        Accept: "application/json,  */*",
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.Status === "False! Phone No already exists"){
+        this.setState({
+          duplicatePhoneModal: true
+        })
+      }
+      else{
+        this.setState({
+          responseSMS_OTP: responseJson.OTP
+        })
+      }
+    })
+  }
   countdownTimer = () => {
     if(this.state.countDown > 0){
       this.setState({
@@ -607,6 +713,22 @@ class Register extends React.Component {
       this.setState({
         isCountDownStarted: false,
         countDown: 30
+      })
+    }
+  }
+  countdownPhoneTimer = () => {
+    if(this.state.countDown_SMS > 0){
+      this.setState({
+        countDown_SMS: this.state.countDown_SMS-1
+      })
+      setTimeout(() => {
+        this.countdownPhoneTimer()
+      }, 1000);
+    }
+    else{
+      this.setState({
+        isSMSCountDownStarted: false,
+        countDown_SMS: 30
       })
     }
   }
@@ -703,7 +825,6 @@ class Register extends React.Component {
   }
 
   //LOAN INFORMATION
-
   handleEmploymentStatus = (employmentStatus) => {
     if(employmentStatus.value != undefined || employmentStatus.value != "" || employmentStatus.value != null){
       this.setState({ employmentStatus: employmentStatus.value });
@@ -982,7 +1103,7 @@ class Register extends React.Component {
       id: userID
     }
     console.log(user)
-    await fetch("https://csrnagaland.in/loanidan/api/upload_passport.php", {
+    await fetch("https://nagalandloan.in/admin/api/upload_passport.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -1005,7 +1126,7 @@ class Register extends React.Component {
     });
   }
   changeStepper = (index) => {
-    if(index === "Verify Email"){}
+    if(index === "Verification"){}
     if(index === "Confirmation"){}
     if(index === "Basic Information"){
       this.setState({
@@ -1096,7 +1217,7 @@ class Register extends React.Component {
       "dpr": isDPR ? "Yes" : "No",
       "consent": "Yes"
   };
-  await fetch("https://csrnagaland.in/loanidan/api/register.php", {
+  await fetch("https://nagalandloan.in/admin/api/register.php", {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -1127,7 +1248,7 @@ class Register extends React.Component {
     if(this.state.layoutView === "Basics"){
       index = 0
     }
-    else if(this.state.layoutView === "Verify Email"){
+    else if(this.state.layoutView === "Verification"){
       index = 1
     }
     else if(this.state.layoutView === "Addresses"){
@@ -1147,7 +1268,7 @@ class Register extends React.Component {
               <html lang="en" />  
               <meta charSet="utf-8" />
               <title>Nagaland Loan Tracking Portal | Register</title>
-              <meta name="description" content="One-Time-Registration Portal of Nagaland Staff Selection Board (NSSB)" />
+              <meta name="description" content="One-Time-Registration Portal of Credit Outreach Facilitation Unit (COFU) : Nagaland" />
               <link rel="canonical" href="https://nssbrecruitment.in/" />
           </Helmet>
           <Modal
@@ -1673,9 +1794,9 @@ class Register extends React.Component {
                  <></>
               }
               {
-                 this.state.layoutView === "Verify Email" ?
+                 this.state.layoutView === "Verification" ?
                     <div className="register_containerBox_inner">
-                        <p className="login_header_text" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Verify Email</p>
+                        <p className="login_header_text" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Verify Email ID</p>
                         <center>
                           <p className="emailVerifyHeader_register" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>{this.state.email}</p>
                           <p className="verifyEmail_subheader_text" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>OTP has been sent on the registered Email ID. Check Inbox/Spam folder</p>
@@ -1714,14 +1835,20 @@ class Register extends React.Component {
                               <></>
                           }
                         </center>
-                        <Row>
-                          <Col md={6} sm={6} xs={6}>
-                            <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics"})}>
-                                <p className="login_signup_ques_text_blue">Change Email</p>
+                        {
+                          this.state.isEmailVerified ?
+                            <div className="ViewExams_appliedBtn">
+                              <p className="profile_greenBtn_txt">Email ID Verified</p>
                             </div>
-                          </Col>
-                          <Col md={6} sm={6} xs={6}>
-                            {
+                          :
+                          <Row>
+                            <Col md={6} sm={6} xs={6}>
+                              <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics", isEmailVerified: false, isPhoneVerified: false, enteredOTP:"", enteredSMS_OTP: ""})}>
+                                  <p className="login_signup_ques_text_blue">Change Email</p>
+                              </div>
+                            </Col>
+                            <Col md={6} sm={6} xs={6}>
+                              {
                                 this.state.enteredOTP.length === 4 ?
                                   <div className="login_button" onClick={this.verifyOTP}>
                                       <p className="login_signup_ques_text_white">Verify</p>
@@ -1729,7 +1856,7 @@ class Register extends React.Component {
                                 :
                                   <>
                                   {
-                                    this.state.isCountDownStarted ?
+                                    this.state.isSMSCountDownStarted ?
                                       <div className="login_button_disabled">
                                         <p className="login_signup_ques_text_white">Wait {this.state.countDown} secs</p>
                                       </div>
@@ -1740,8 +1867,100 @@ class Register extends React.Component {
                                   }
                                   </>
                               }
-                          </Col>
-                        </Row>
+                            </Col>
+                          </Row>
+                        }
+                        <p className="login_header_text_margin" style={{ fontSize: fontSize >28 ? `${fontSize}px` : '27px' }}>Verify Phone Number</p>
+                        <center>
+                          <p className="emailVerifyHeader_register" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>{this.state.phone}</p>
+                          <p className="verifyEmail_subheader_text" style={{ fontSize: fontSize >17 ? `${fontSize}px` : '16px' }}>OTP has been sent on the registered Phone Number.</p>
+                        </center>
+                        <div className="otp_input_center">
+                          <OtpInput
+                              value={this.state.enteredSMS_OTP}
+                              onChange={this.handlePhoneOTPChange}
+                              isInputNum={true}
+                              inputStyle={{  
+                                  width: '2.3em',  
+                                  height: '2.3em',  
+                                  margin: '20px 1rem',  
+                                  fontSize: '1.5rem',
+                                  color: "#ababab",
+                                  borderRadius: 8,  
+                                  border: '2px solid #ababab',      
+                              }}
+                              focusStyle={{
+                                border: '2px solid #0783de', 
+                              }}
+                              numInputs={4}
+                              separator={<span>-</span>}
+                          />
+                        </div>
+                        <center>
+                          {  
+                              this.state.errors["incorrect_Phone_OTP"] ? (
+                                  <span
+                                      id="marginInputs"
+                                      className="otpERROR_register"
+                                  >
+                                      {this.state.errors["incorrect_Phone_OTP"]}
+                                  </span>
+                              ) :
+                              <></>
+                          }
+                        </center>
+                        {
+                          this.state.isPhoneVerified ?
+                            <div className="ViewExams_appliedBtn">
+                              <p className="profile_greenBtn_txt">Phone Number Verified</p>
+                            </div>
+                          :
+                          <Row>
+                            <Col md={6} sm={6} xs={6}>
+                              <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics", isEmailVerified: false, isPhoneVerified: false, enteredOTP:"", enteredSMS_OTP: ""})}>
+                                  <p className="login_signup_ques_text_blue">Change Phone</p>
+                              </div>
+                            </Col>
+                            <Col md={6} sm={6} xs={6}>
+                              {
+                                this.state.enteredSMS_OTP.length === 4 ?
+                                  <div className="login_button" onClick={this.verifyPhoneOTP}>
+                                      <p className="login_signup_ques_text_white">Verify</p>
+                                  </div>
+                                :
+                                  <>
+                                  {
+                                    this.state.isSMSCountDownStarted ?
+                                      <div className="login_button_disabled">
+                                        <p className="login_signup_ques_text_white">Wait {this.state.countDown_SMS} secs</p>
+                                      </div>
+                                    :
+                                      <div className="login_button"  onClick={this.resendPhoneOTP}>
+                                        <p className="login_signup_ques_text_white">Resend</p>
+                                      </div>
+                                  }
+                                  </>
+                              }
+                            </Col>
+                          </Row>
+                        }
+                        {
+                          this.state.isEmailVerified && this.state.isPhoneVerified ?
+                          <Row>
+                            <Col md={6} sm={6} xs={6}>
+                              <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics", isEmailVerified: false, isPhoneVerified: false, enteredOTP:"", enteredSMS_OTP: ""})}>
+                                  <p className="login_signup_ques_text_blue">Go Back</p>
+                              </div>
+                            </Col>
+                            <Col md={6} sm={6} xs={6}>
+                              <div className="login_button" onClick={()=> this.setState({layoutView: "Addresses"})}>
+                                  <p className="login_signup_ques_text_white">Next</p>
+                              </div>
+                            </Col>
+                          </Row>
+                          :
+                          <></>
+                        }
                     </div>
                     :
                     <></>
@@ -1855,7 +2074,7 @@ class Register extends React.Component {
                       </Row>
                       <Row>
                         <Col md={6} xs={6} sm={6}>
-                          <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics"})}>
+                          <div className="changeEmail_button" onClick={()=> this.setState({layoutView: "Basics", isEmailVerified: false, isPhoneVerified: false, enteredOTP:"", enteredSMS_OTP: ""})}>
                               <p className="login_signup_ques_text_blue">Go Back</p>
                           </div>
                         </Col>
@@ -2408,9 +2627,10 @@ class Register extends React.Component {
                     <></>
                   }
                   {
-                    this.state.layoutView === "Verify Email" ?
+                    this.state.layoutView === "Verification" ?
                     <>
                       <li><p className="passport_subheader_text">An email with 4 digits OTP has been sent at {this.state.email}</p></li>
+                      <li><p className="passport_subheader_text">An OTP has been sent at your register phone number {this.state.phone}</p></li>
                       <li><p className="passport_subheader_text">Kindly check Inbox & Spam folders.</p></li>
                       <li><p className="passport_subheader_text">You can request for OTP Resend every 30 seconds.</p></li>
                     </>

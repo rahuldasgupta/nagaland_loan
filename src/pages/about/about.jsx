@@ -100,7 +100,7 @@ class about extends React.Component {
     this.getDistricData();
   }
   getGenderData = () => {
-    fetch(`https://admin.cybersecnielit.in/api/genderWise.php`, {
+    fetch(`https://nielitdihh.in/admin/api/genderWise.php`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -156,7 +156,7 @@ class about extends React.Component {
       });
   };
   getTrainingData = () => {
-    fetch(`https://admin.cybersecnielit.in/api/training_categoryWise.php`, {
+    fetch(`https://nielitdihh.in/admin/api/training_categoryWise.php`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -218,7 +218,7 @@ class about extends React.Component {
     })
   }
   getDistricData = () => {
-    fetch(`https://admin.cybersecnielit.in/api/training_districtWise.php`, {
+    fetch(`https://nielitdihh.in/admin/api/training_districtWise.php`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -318,7 +318,7 @@ class about extends React.Component {
       
   }
   getWorkshopData = () => {
-    fetch(`https://admin.cybersecnielit.in/api/workshop_districtWise.php`, {
+    fetch(`https://nielitdihh.in/admin/api/workshop_districtWise.php`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -416,7 +416,7 @@ class about extends React.Component {
       });
   }
   getTimelineData = () => {
-    fetch(`https://admin.cybersecnielit.in/api/get_year_month_wise_artisans.php?year=2022`, {
+    fetch(`https://nielitdihh.in/admin/api/get_year_month_wise_artisans.php?year=2022`, {
       method: "GET",
     })
       .then((response) => response.json())
